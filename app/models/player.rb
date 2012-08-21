@@ -5,7 +5,8 @@ class Player < ActiveRecord::Base
   has_many :games_as_t2p1, foreign_key: 'team2_player1_id', class_name: 'Game'
   has_many :games_as_t2p2, foreign_key: 'team2_player2_id', class_name: 'Game'
 
-  def initialize
+  def initialize *args
+    super
     @config = YAML.load_file("#{Rails.root}/config/ranking_algorithm.yml")
   end
 

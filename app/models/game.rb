@@ -7,7 +7,8 @@ class Game < ActiveRecord::Base
 
   after_save :calculate_player_rankings
 
-  def initialize
+  def initialize *args
+    super
     @config = YAML.load_file("#{Rails.root}/config/ranking_algorithm.yml")
   end
 
