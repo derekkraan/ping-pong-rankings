@@ -3,9 +3,11 @@ class Game < ActiveRecord::Base
   belongs_to :team1_player2, class_name: 'Player'
   belongs_to :team2_player1, class_name: 'Player'
   belongs_to :team2_player2, class_name: 'Player'
-  attr_accessible :score_difference, :score_team1, :score_team2
+  attr_accessible :ranking_impact, :score_team1, :score_team2
 
-  def valid?
+  after_save :calculate_player_rankings
+
+  def valid?(context=nil)
     # Need to have at least two players
     return false unless team1_player1 && team2_player1
 
@@ -23,5 +25,9 @@ class Game < ActiveRecord::Base
 
   def players
     [team1_player1, team1_player2, team2_player1, team2_player2].find_all &:present?
+  end
+
+  def calculate_player_rankings
+
   end
 end
