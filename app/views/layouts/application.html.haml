@@ -1,0 +1,26 @@
+!!!
+%html
+  %head
+    %title PingPongFührer
+    %link{:rel => 'shortcut icon', :href => '/favicon.ico', :type => 'image/x-icon'}
+    %link{:href => "http://twitter.github.com/bootstrap/assets/css/bootstrap.css", :rel => "stylesheet"}
+    = stylesheet_link_tag 'application', :media => 'all'
+    = javascript_include_tag 'application'
+    = csrf_meta_tags
+  %body
+    .navbar.navbar-inverse.navbar-fixed-top
+      .navbar-inner
+        .container
+          %a.brand{:href => "/"} PingPongFührer
+          %ul.nav
+            %li
+              %a{:href => "/"} Home
+    .container
+      .content
+        %h1
+          = yield :title
+        .row
+          .span9
+            = yield
+          .span3
+            = yield :sidebar
