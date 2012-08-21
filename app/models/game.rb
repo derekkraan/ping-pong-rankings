@@ -7,6 +7,10 @@ class Game < ActiveRecord::Base
 
   after_save :calculate_player_rankings
 
+  def initialize
+    @config = YAML.load_file("#{Rails.root}/config/ranking_algorithm.yml")
+  end
+
   def valid?(context=nil)
     # Need to have at least two players
     return false unless team1_player1 && team2_player1
@@ -28,6 +32,6 @@ class Game < ActiveRecord::Base
   end
 
   def calculate_player_rankings
-
+    @config.algorithm.constantize.calculate(score_team1, score_team2, team1_player1, team1_player2, team2_player1, team2_player2)
   end
 end
