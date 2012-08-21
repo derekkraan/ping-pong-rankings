@@ -5,3 +5,8 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+Player.delete_all
+Player.create(:name => 'Derek')
+Player.create(:name => 'Wouter')
+Player.create(:name => 'Rik')
+Player.create(:name => 'Martijn')
