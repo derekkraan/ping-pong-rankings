@@ -1,25 +1,29 @@
 - content_for :title, 'Player Rankings'
-- players = Player.order('score desc, name asc')
 .row
-  .span4
+  .span6
     %table.table.table-striped
+      - players = Player.order('score desc, name asc')
       %thead
         %tr
           %td #
           %td Name
           %td GP
           %td Score
+          %td Streak
       %tbody
         - last_score = false
         - rank = 1
         - players.each do |player|
           %tr
-            - if player.score == last_score
-              %td= ''
-            - else
-              %td= rank
-              - rank += 1
+            %td= rank if player.score != last_score
+            - rank += 1 if player.score != last_score
             - last_score = player.score
-            %td= player.name
+            %td
+              - if player.winning_streak > 2
+                %span.label.label-important ON FIRE
+              - if player.losing_streak > 1
+                %span.label LOSING
+              = player.name
             %td= player.games.count
             %td= player.score
+            %td= player.streak

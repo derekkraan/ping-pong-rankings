@@ -6,7 +6,7 @@ class PlayerController < ApplicationController
     new_player = Player.new(params['player'])
     new_player.reset_score
 
-    view = new_player.save ? 'save' : 'save_fail'
+    view = new_player.save ? 'new' : 'save_fail'
 
     render view
   end

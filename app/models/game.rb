@@ -29,6 +29,40 @@ class Game < ActiveRecord::Base
     [team1_player1, team1_player2, team2_player1, team2_player2].find_all &:present?
   end
 
+  def self.by_player(id)
+    g = Game.arel_table
+    where(
+      g[:team1_player1_id].eq(id)
+      .or(g[:team1_player2_id].eq(id))
+      .or(g[:team2_player1_id].eq(id))
+      .or(g[:team2_player2_id].eq(id))
+    )
+  end
+
+  def self.won_by_player(id)
+    g = Game.arel_table
+    where(
+      g[:team1_player1_id].eq(id).or(g[:team1_player2_id].eq(id))
+      .and(g[:team1_score].gt(g[:team2_score]))
+      .or(
+        g[:team2_player1_id].eq(id).or(g[:team2_player2_id].eq(id))
+        .and(g[:team1_score].lt(g[:team2_score]))
+      )
+    )
+  end
+
+  def self.lost_by_player(id)
+    g = Game.arel_table
+    where(
+      g[:team1_player1_id].eq(id).or(g[:team1_player2_id].eq(id))
+      .and(g[:team1_score].lt(g[:team2_score]))
+      .or(
+        g[:team2_player1_id].eq(id).or(g[:team2_player2_id].eq(id))
+        .and(g[:team1_score].gt(g[:team2_score]))
+      )
+    )
+  end
+
   def winners
     if team1_score > team2_score
       [team1_player1, team1_player2].find_all &:present?
@@ -52,6 +86,11 @@ class Game < ActiveRecord::Base
 
   def losing_score
     [team1_score, team2_score].min
+  end
+
+  def self.newer_than(time)
+    g = Game.arel_table
+    where(g[:created_at].gt(time))
   end
 
   def calculate_player_rankings
