@@ -10,4 +10,8 @@ class PlayerController < ApplicationController
 
     render view
   end
+
+  def rankings
+    render 'rankings'
+  end
 end

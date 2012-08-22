@@ -5,11 +5,11 @@
       - players = Player.order('score desc, name asc')
       %thead
         %tr
-          %td #
-          %td Name
-          %td GP
-          %td Score
-          %td Streak
+          %th #
+          %th Name
+          %th GP
+          %th Rating
+          %th Streak
       %tbody
         - last_score = false
         - rank = 1

@@ -1,7 +1,7 @@
 Rankings::Application.routes.draw do
     root :to => 'home#index'
 
-    match "/rankings" => 'home#rankings'
+    match "/ranking" => 'player#ranking'
 
     match "/game/new" => "game#new"
     match "/game/save" => "game#save"
