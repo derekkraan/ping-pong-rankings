@@ -73,11 +73,6 @@ class Game < ActiveRecord::Base
 
   def losers
     players - winners
-    #if team1_score < team2_score
-    #  [team1_player1, team1_player2].find_all &:present?
-    #else
-    #  [team2_player1, team2_player2].find_all &:present?
-    #end
   end
 
   def winning_score
