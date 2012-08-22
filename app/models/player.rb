@@ -7,6 +7,12 @@ class Player < ActiveRecord::Base
 
   include LoadRankingAlgorithm
 
+  before_save :validate_player
+
+  def validate_player
+    Player.where(:name => name).exists ? false : true
+  end
+
   def games
     games_as_t1p1 << games_as_t1p2 << games_as_t2p1 << games_as_t2p2
   end
