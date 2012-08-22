@@ -3,14 +3,11 @@ class Game < ActiveRecord::Base
   belongs_to :team1_player2, class_name: 'Player'
   belongs_to :team2_player1, class_name: 'Player'
   belongs_to :team2_player2, class_name: 'Player'
-  attr_accessible :ranking_impact, :score_team1, :score_team2
+  attr_accessible :ranking_impact, :score_team1, :score_team2, :team1_player1_id, :team1_player2_id, :team2_player1_id, :team2_player2_id
+
+  include LoadRankingAlgorithm
 
   after_save :calculate_player_rankings
-
-  def initialize *args
-    super
-    @config = YAML.load_file("#{Rails.root}/config/ranking_algorithm.yml")
-  end
 
   def valid?(context=nil)
     # Need to have at least two players
@@ -33,6 +30,6 @@ class Game < ActiveRecord::Base
   end
 
   def calculate_player_rankings
-    @config.algorithm.constantize.calculate(score_team1, score_team2, team1_player1, team1_player2, team2_player1, team2_player2)
+    ranking_algorithm.calculate(score_team1, score_team2, team1_player1, team1_player2, team2_player1, team2_player2)
   end
 end

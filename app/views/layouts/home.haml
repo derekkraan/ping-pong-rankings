@@ -8,14 +8,9 @@
     = javascript_include_tag 'application'
     = csrf_meta_tags
   %body
-    .navbar.navbar-inverse.navbar-fixed-top
-      .navbar-inner
-        .container
-          %a.brand{:href => "/"} PingPongFührer
-          %ul.nav
-            %li
-              %a{:href => "/"} Home
     .container
+      = render 'shared/navbar'
+
       .hero-unit
         %iframe{:height => 185, :width => 280, :frameborder => "0", :src => "http://www.youtube.com/embed/bqOZW6ckL0A", :class => "pull-right"}
         %h1 PingPongFührer

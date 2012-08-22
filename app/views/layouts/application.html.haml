@@ -8,13 +8,8 @@
     = javascript_include_tag 'application'
     = csrf_meta_tags
   %body
-    .navbar.navbar-inverse.navbar-fixed-top
-      .navbar-inner
-        .container
-          %a.brand{:href => "/"} PingPongFührer
-          %ul.nav
-            %li
-              %a{:href => "/"} Home
+    = render 'shared/navbar'
+
     .container
       .content
         %h1

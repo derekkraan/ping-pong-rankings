@@ -1,0 +1,5 @@
+- content_for :title, 'New player'
+= form_for :player, :url => '/player/save' do |player|
+  Name: 
+  = player.text_field :name
+  = player.submit

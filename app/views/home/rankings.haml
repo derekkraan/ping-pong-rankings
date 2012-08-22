@@ -1,0 +1,5 @@
+- players = Player.order('score desc, name asc')
+%h2= "Player rankings"
+%ol
+  - players.each_with_index do |player, index|
+    %li= "#{player.name} | #{player.score}"

@@ -1,5 +1,9 @@
 class HomeController < ApplicationController
-  layout "home"
   def index
+    render layout: 'home'
+  end
+
+  def rankings
+    render 'rankings', layout: 'application'
   end
 end

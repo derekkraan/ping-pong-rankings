@@ -1,0 +1,26 @@
+- content_for :title, 'Submit a Game'
+= form_for :game, :url => '/game/save' do |game|
+  - player_options = Player.order('name asc').map do |player|
+    - [player.name, player.id]
+
+  %h3 Team 1: 
+  .row
+    .span4
+      = select 'game', 'team1_player1_id', player_options
+      = select 'game', 'team1_player2_id', player_options
+      .row
+        .span4
+          Score:
+          = game.text_field :score_team1, :class => 'span1'
+    .span1
+      VS
+    .span4
+      = select 'game', 'team2_player1_id', player_options
+      = select 'game', 'team2_player2_id', player_options
+      .row
+        .span4
+          Score:
+          = game.text_field :score_team2, :class => 'span1'
+  .row
+    .span9
+      = game.submit
