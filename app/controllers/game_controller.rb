@@ -7,7 +7,10 @@ class GameController < ApplicationController
 
   def save
     new_game = Game.new(params['game'])
-    new_game.save
+
+    view = new_game.save ? 'save' : 'save_fail'
+
+    render view
   end
 end
 

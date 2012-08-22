@@ -3,7 +3,7 @@ class Game < ActiveRecord::Base
   belongs_to :team1_player2, class_name: 'Player'
   belongs_to :team2_player1, class_name: 'Player'
   belongs_to :team2_player2, class_name: 'Player'
-  attr_accessible :ranking_impact, :score_team1, :score_team2, :team1_player1_id, :team1_player2_id, :team2_player1_id, :team2_player2_id
+  attr_accessible :ranking_impact, :team1_score, :team2_score, :team1_player1_id, :team1_player2_id, :team2_player1_id, :team2_player2_id
 
   include LoadRankingAlgorithm
 
@@ -14,7 +14,7 @@ class Game < ActiveRecord::Base
     return false unless team1_player1 && team2_player1
 
     # Need to have a score for each team
-    return false unless score_team1 && score_team2
+    return false unless team1_score && team2_score
 
     # If one team has two players, then the other team should too
     return false if (team1_player2 && !team2_player2) || (team2_player2 && !team1_player2)
@@ -29,7 +29,32 @@ class Game < ActiveRecord::Base
     [team1_player1, team1_player2, team2_player1, team2_player2].find_all &:present?
   end
 
+  def winners
+    if team1_score > team2_score
+      [team1_player1, team1_player2].find_all &:present?
+    else
+      [team2_player1, team2_player2].find_all &:present?
+    end
+  end
+
+  def losers
+    players - winners
+    #if team1_score < team2_score
+    #  [team1_player1, team1_player2].find_all &:present?
+    #else
+    #  [team2_player1, team2_player2].find_all &:present?
+    #end
+  end
+
+  def winning_score
+    [team1_score, team2_score].max
+  end
+
+  def losing_score
+    [team1_score, team2_score].min
+  end
+
   def calculate_player_rankings
-    ranking_algorithm.calculate(score_team1, score_team2, team1_player1, team1_player2, team2_player1, team2_player2)
+    ranking_algorithm.calculate(team1_score, team2_score, team1_player1, team1_player2, team2_player1, team2_player2)
   end
 end

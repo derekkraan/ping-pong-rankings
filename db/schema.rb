@@ -11,11 +11,11 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120822072751) do
+ActiveRecord::Schema.define(:version => 20120822195702) do
 
   create_table "games", :force => true do |t|
-    t.integer  "score_team1"
-    t.integer  "score_team2"
+    t.integer  "team1_score"
+    t.integer  "team2_score"
     t.integer  "team1_player1_id"
     t.integer  "team1_player2_id"
     t.integer  "team2_player1_id"
