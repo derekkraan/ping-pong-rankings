@@ -7,6 +7,8 @@ gem 'rails', '3.2.8'
 
 gem 'pg'
 
+gem 'thin'
+
 gem 'haml'
 gem 'haml-rails'
 
