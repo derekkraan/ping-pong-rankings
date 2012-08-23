@@ -1,21 +1,33 @@
 - content_for :title, @player.name
 .row
+  .span1
+    = link_to('Edit '.html_safe << content_tag(:i, '', :class => 'icon-pencil'), edit_player_path(@player))
+.row
   .span9
     %h3 Recent games
-    - @player.games.order('created_at desc').where(:created_at => 30.days.ago..Time.now).each do |game|
-      .row
-        .span9
-          - if game.winners.include? @player
-            %span.label.label-success WON
-            - if game.winners.count > 1
-              - teammate = (game.winners - [@player]).first
-              = "with #{link_to teammate.name, teammate}".html_safe
-            = "against #{game.losers.map{|winner| link_to(winner.name, winner)}.to_sentence}".html_safe
-            = "(#{game.winning_score}-#{game.losing_score})"
-          - else
-            %span.label.label LOST
-            - if game.losers.count > 1
-              - teammate = (game.losers - [@player]).first
-              = "with #{link_to teammate.name, teammate}".html_safe
-            = "against #{game.winners.map{|winner| link_to(winner.name, winner)}.to_sentence}".html_safe
-            = "(#{game.losing_score}-#{game.winning_score})"
+    %table.table.table-striped
+      %tbody
+        - @player.games.order('created_at desc').where(:created_at => 30.days.ago..Time.now).each do |game|
+          %tr
+            - if game.winners.include? @player
+              %td.span1
+                %span.label.label-success.pull-right WON
+              %td.span1
+                = "#{game.winning_score}-#{game.losing_score}"
+              %td
+                - if game.winners.count > 1
+                  - teammate = (game.winners - [@player]).first
+                  = "with #{link_to teammate.name, teammate}".html_safe
+                = "against"
+                = "#{game.losers.map{|winner| link_to(winner.name, winner)}.to_sentence}".html_safe
+            - else
+              %td.span1
+                %span.label.label.pull-right LOST
+              %td.span1
+                = "#{game.losing_score}-#{game.winning_score}"
+              %td
+                - if game.losers.count > 1
+                  - teammate = (game.losers - [@player]).first
+                  = "with #{link_to teammate.name, teammate}".html_safe
+                = "against"
+                = "#{game.winners.map{|winner| link_to(winner.name, winner)}.to_sentence}".html_safe
