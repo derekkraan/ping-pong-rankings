@@ -36,8 +36,8 @@ class Player < ActiveRecord::Base
   end
 
   def streak
-    return winning_streak if winning_streak > 1
-    return -losing_streak if losing_streak > 1
+    return winning_streak if winning_streak > 0
+    return -losing_streak if losing_streak > 0
     0
   end
 

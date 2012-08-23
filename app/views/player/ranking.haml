@@ -14,16 +14,17 @@
         - last_rating = false
         - rank = 1
         - players.each do |player|
-          %tr
-            %td= rank if player.rating != last_rating
-            - rank += 1 if player.rating != last_rating
-            - last_rating = player.rating
-            %td
-              - if player.winning_streak > 2
-                %span.label.label-important ON FIRE
-              - if player.losing_streak > 1
-                %span.label LOSING
-              = player.name
-            %td= player.games.count
-            %td= player.rating
-            %td= player.streak
+          - if player.games.count > 0
+            %tr
+              %td= rank if player.rating != last_rating
+              - rank += 1 if player.rating != last_rating
+              - last_rating = player.rating
+              %td
+                - if player.winning_streak > 2
+                  %span.label.label-important ON FIRE
+                - if player.losing_streak > 1
+                  %span.label LOSING
+                = player.name
+              %td= player.games.count
+              %td= player.rating
+              %td= player.streak
