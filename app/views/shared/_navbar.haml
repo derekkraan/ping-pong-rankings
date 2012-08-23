@@ -4,8 +4,8 @@
       %a.brand{:href => "/"} PingPongFührer
       %ul.nav
         %li
-          %a{:href => "/ranking"} Rankings
+          = link_to 'Rankings', '/ranking'
         %li
-          %a{:href => "/game/new"} Enter Game
+          = link_to 'Enter Game', new_game_path
         %li
-          %a{:href => "/player/new"} Add Player
+          = link_to 'Add Player', new_player_path

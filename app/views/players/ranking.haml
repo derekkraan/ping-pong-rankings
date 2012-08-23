@@ -24,7 +24,7 @@
                   %span.label.label-important ON FIRE
                 - if player.losing_streak > 1
                   %span.label LOSING
-                = player.name
+                = link_to player.name, player
               %td= player.games.count
               %td= player.rating
               %td= player.streak

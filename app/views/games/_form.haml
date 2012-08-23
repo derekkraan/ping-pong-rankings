@@ -1,5 +1,5 @@
-- content_for :title, 'Submit a Game'
-= form_for :game, :url => '/game/save' do |game|
+= form_for @game do |game|
+  = game.hidden_field :id
   - player_options = [['-', nil]] + Player.order('name asc').map do |player|
     - [player.name, player.id]
 

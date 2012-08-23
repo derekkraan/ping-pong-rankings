@@ -1,0 +1,15 @@
+- content_for :title, 'New player'
+.row
+  .span5
+    = render 'form'
+
+  .span4
+    %h4 Recently added players
+    %ul
+      - Player.order('created_at desc').limit(8).each do |player|
+        %li
+          = link_to player.name, player
+          - if player.created_at > 1.minute.ago
+            %span.label.label-success saved
+          - elsif player.created_at > Time.new.yesterday
+            %span.label new
