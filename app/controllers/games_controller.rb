@@ -23,6 +23,14 @@ class GamesController < ApplicationController
     game = Game.new(params['game'])
 
     if game.save
+      winners = game.winners.map { |p| p.twitter.present? ? "@#{p.twitter}" : p.name }
+      losers = game.losers.map { |p| p.twitter.present? ? "@#{p.twitter}" : p.name }
+      begin
+        Twitter.update("#{winners.to_sentence} beat #{losers.to_sentence} #{game.winning_score} - #{game.losing_score}")
+      rescue
+        logger.debug "Twitter post failed for Game id: #{id}"
+      end
+
       redirect_to '/ranking'
     else
       render 'save_fail'
