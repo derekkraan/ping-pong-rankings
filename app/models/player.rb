@@ -1,5 +1,5 @@
 class Player < ActiveRecord::Base
-  attr_accessible :name, :score, :twitter
+  attr_accessible :name, :rating, :twitter
   has_many :games_as_t1p1, foreign_key: 'team1_player1_id', class_name: 'Game'
   has_many :games_as_t1p2, foreign_key: 'team1_player2_id', class_name: 'Game'
   has_many :games_as_t2p1, foreign_key: 'team2_player1_id', class_name: 'Game'
@@ -41,7 +41,7 @@ class Player < ActiveRecord::Base
     0
   end
 
-  def reset_score
-    self.score = ranking_algorithm::DEFAULT_PLAYER_SCORE
+  def reset_rating
+    self.rating = ranking_algorithm::DEFAULT_PLAYER_RATING
   end
 end

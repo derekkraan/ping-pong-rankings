@@ -8,9 +8,11 @@ class GameController < ApplicationController
   def save
     new_game = Game.new(params['game'])
 
-    view = new_game.save ? 'save' : 'save_fail'
-
-    render view
+    if new_game.save
+      redirect_to '/ranking'
+    else
+      render 'save_fail'
+    end
   end
 end
 

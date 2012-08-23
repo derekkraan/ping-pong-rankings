@@ -1,1 +1,1 @@
-algorithm: 'RankingCalculator'
+algorithm: 'EloRanking'

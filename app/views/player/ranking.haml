@@ -2,7 +2,7 @@
 .row
   .span6
     %table.table.table-striped
-      - players = Player.order('score desc, name asc')
+      - players = Player.order('rating desc, name asc')
       %thead
         %tr
           %th #
@@ -11,13 +11,13 @@
           %th Rating
           %th Streak
       %tbody
-        - last_score = false
+        - last_rating = false
         - rank = 1
         - players.each do |player|
           %tr
-            %td= rank if player.score != last_score
-            - rank += 1 if player.score != last_score
-            - last_score = player.score
+            %td= rank if player.rating != last_rating
+            - rank += 1 if player.rating != last_rating
+            - last_rating = player.rating
             %td
               - if player.winning_streak > 2
                 %span.label.label-important ON FIRE
@@ -25,5 +25,5 @@
                 %span.label LOSING
               = player.name
             %td= player.games.count
-            %td= player.score
+            %td= player.rating
             %td= player.streak
