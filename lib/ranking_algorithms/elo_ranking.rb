@@ -22,7 +22,7 @@ class EloRanking
   end
 
   def self.expected_score(p1_rating, p2_rating)
-    1.0 / (1 + 10**((p2_rating - p1_rating)/400))
+    1.0 / (1.0 + 10**((p2_rating - p1_rating).to_f/400))
   end
 
   def self.k_factor(player)
