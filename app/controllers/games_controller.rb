@@ -28,7 +28,7 @@ class GamesController < ApplicationController
       begin
         Twitter.update("#{winners.to_sentence} beat #{losers.to_sentence} #{game.winning_score} - #{game.losing_score}")
       rescue
-        logger.debug "Twitter post failed for Game id: #{id}"
+        logger.debug "Twitter post failed for Game id: #{game.id}"
       end
 
       redirect_to '/ranking'
@@ -48,6 +48,7 @@ class GamesController < ApplicationController
     players.each &:save
 
     Game.order('created_at asc').each &:calculate_player_rankings
+    redirect_to '/ranking'
   end
 
 end

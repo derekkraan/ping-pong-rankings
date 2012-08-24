@@ -3,22 +3,29 @@ class EloRanking
   DEFAULT_PLAYER_RATING = 1500
 
   def self.calculate(t1_score, t2_score, t1_p1, t1_p2, t2_p1, t2_p2)
-    # For now just do the one on one case.
-    if t1_p1.present? && t2_p1.present? && t1_p2.blank? && t2_p2.blank?
 
-      p1_expected = self.expected_score(t1_p1.rating, t2_p1.rating)
-      p2_expected = self.expected_score(t2_p1.rating, t1_p1.rating)
+    t1 = [t1_p1, t1_p2].select &:present?
+    t2 = [t2_p1, t2_p2].select &:present?
 
-      p1_score = t1_score > t2_score ? 1 : 0
-      p2_score = t1_score < t2_score ? 1 : 0
+    t1_rating = t1.map(&:rating).inject(&:+).to_f / t1.count
+    t2_rating = t2.map(&:rating).inject(&:+).to_f / t2.count
 
-      t1_p1.rating = t1_p1.rating + self.k_factor(t1_p1) * ( p1_score - p1_expected)
-      t1_p1.save
+    t1_expected = self.expected_score(t1_rating, t2_rating)
+    t2_expected = self.expected_score(t2_rating, t1_rating)
 
-      t2_p1.rating = t2_p1.rating + self.k_factor(t2_p1) * ( p2_score - p2_expected)
-      t2_p1.save
+    t1_score = t1_score > t2_score ? 1 : 0
+    t2_score = t1_score < t2_score ? 1 : 0
 
+    t1.each do |player|
+      player.rating = player.rating + self.k_factor(player) * (t1_score - t1_expected)
+      player.save
     end
+
+    t2.each do |player|
+      player.rating = player.rating + self.k_factor(player) * (t2_score - t2_expected)
+      player.save
+    end
+
   end
 
   def self.expected_score(p1_rating, p2_rating)
