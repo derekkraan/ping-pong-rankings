@@ -13,12 +13,8 @@ class EloRanking
     t1_expected = self.expected_score(t1_rating, t2_rating)
     t2_expected = 1 - t1_expected #self.expected_score(t2_rating, t1_rating)
 
-    puts 'expected ' << [t1_expected, t2_expected].inspect
-
     t1_result = t1_score > t2_score ? 1 : 0
     t2_result = t1_score < t2_score ? 1 : 0
-
-    puts 'score - expected ' << [t1_result - t1_expected, t2_result - t2_expected].inspect
 
     t1.each do |player|
       player.rating = player.rating + self.k_factor(player) * (t1_result - t1_expected)
