@@ -1,4 +1,5 @@
 - content_for :title, @player.name
+- content_for :sidebar, render('rating_graph')
 .row
   .span1
     = link_to('Edit '.html_safe << content_tag(:i, '', :class => 'icon-pencil'), edit_player_path(@player))

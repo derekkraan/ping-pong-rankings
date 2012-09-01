@@ -16,15 +16,29 @@
         - players.each do |player|
           - if player.games.count > 0
             %tr
-              %td= rank if player.rating != last_rating
-              - rank += 1 if player.rating != last_rating
-              - last_rating = player.rating
               %td
-                - if player.winning_streak > 2
-                  %span.label.label-important ON FIRE
-                - if player.losing_streak > 1
+                = rank if player.rating != last_rating
+              %td
+                - if rank == 1
+                  %icon{ :class => 'icon-star' }
+                - if player.winning_streak >= 3
+                  %span.label.label-important
+                    - case player.winning_streak
+                    - when 3..5
+                      HOT STREAK
+                    - when 5..10
+                      ON FIRE
+                    - when 10..20
+                      MOLTEN
+                    - else
+                      GURU
+
+                - if player.losing_streak >= 3
                   %span.label LOSING
                 = link_to player.name, player
               %td= player.games.count
               %td= player.rating
               %td= player.streak
+
+              - rank += 1 if player.rating != last_rating
+              - last_rating = player.rating

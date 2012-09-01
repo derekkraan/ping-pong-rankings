@@ -5,7 +5,6 @@
     %link{:rel => 'shortcut icon', :href => '/favicon.ico', :type => 'image/x-icon'}
     %link{:href => "http://twitter.github.com/bootstrap/assets/css/bootstrap.css", :rel => "stylesheet"}
     = stylesheet_link_tag 'application', :media => 'all'
-    = javascript_include_tag 'application'
     = csrf_meta_tags
   %body
     = render 'shared/navbar'
@@ -19,3 +18,4 @@
             = yield
           .span3
             = yield :sidebar
+= javascript_include_tag 'application'
