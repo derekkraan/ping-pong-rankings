@@ -11,24 +11,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120823074128) do
+ActiveRecord::Schema.define(:version => 20120827200552) do
 
   create_table "games", :force => true do |t|
-    t.integer  "team1_score"
-    t.integer  "team2_score"
-    t.integer  "team1_player1_id"
-    t.integer  "team1_player2_id"
-    t.integer  "team2_player1_id"
-    t.integer  "team2_player2_id"
-    t.integer  "ranking_impact"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
-
-  add_index "games", ["team1_player1_id"], :name => "index_games_on_team1_player1_id"
-  add_index "games", ["team1_player2_id"], :name => "index_games_on_team1_player2_id"
-  add_index "games", ["team2_player1_id"], :name => "index_games_on_team2_player1_id"
-  add_index "games", ["team2_player2_id"], :name => "index_games_on_team2_player2_id"
 
   create_table "players", :force => true do |t|
     t.string   "name"
@@ -39,5 +27,19 @@ ActiveRecord::Schema.define(:version => 20120823074128) do
   end
 
   add_index "players", ["name"], :name => "index_players_on_name", :unique => true
+
+  create_table "players_teams", :force => true do |t|
+    t.integer  "team_id"
+    t.integer  "player_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "teams", :force => true do |t|
+    t.integer  "game_id"
+    t.integer  "score"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
 end
