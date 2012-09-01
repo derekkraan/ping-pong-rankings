@@ -50,3 +50,5 @@ gem 'jquery-rails'
 # gem 'debugger'
 
 gem 'twitter'
+
+gem 'therubyracer', require: 'v8'
