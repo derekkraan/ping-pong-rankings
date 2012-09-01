@@ -29,10 +29,8 @@ ActiveRecord::Schema.define(:version => 20120827200552) do
   add_index "players", ["name"], :name => "index_players_on_name", :unique => true
 
   create_table "players_teams", :force => true do |t|
-    t.integer  "team_id"
-    t.integer  "player_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.integer "team_id"
+    t.integer "player_id"
   end
 
   create_table "teams", :force => true do |t|
