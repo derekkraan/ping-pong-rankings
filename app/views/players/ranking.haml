@@ -7,6 +7,7 @@
         %tr
           %th #
           %th Name
+          %th
           %th GP
           %th Rating
           %th Streak
@@ -19,23 +20,11 @@
               %td
                 = rank if player.rating != last_rating
               %td
-                - if rank == 1
-                  %icon{ :class => 'icon-star' }
-                - if player.winning_streak >= 3
-                  %span.label.label-important
-                    - case player.winning_streak
-                    - when 3..5
-                      HOT STREAK
-                    - when 5..10
-                      ON FIRE
-                    - when 10..20
-                      MOLTEN
-                    - else
-                      GURU
-
-                - if player.losing_streak >= 3
-                  %span.label LOSING
                 = link_to player.name, player
+                = streak_label player.streak
+              %td.spark_line
+                %span.spark_line{ :id => "rating_spark_#{player.id}", :style => "width: #{[100,10 * player.games.count].min}px;" }
+                - spark_line "rating_spark_#{player.id}", player.rating_histories.map(&:rating)
               %td= player.games.count
               %td= player.rating
               %td= player.streak

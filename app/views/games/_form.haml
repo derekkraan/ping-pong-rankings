@@ -3,32 +3,37 @@
   - player_options = [['-', nil]] + Player.order('name asc').map do |player|
     - [player.name, player.id]
 
-  %h3 Team 1: 
   .row
     .span4
+      %h3 Team 1:
       = fields_for :team1_player1, Player.new do |player|
-        = select 'team1_player1', 'id', player_options
-
+        = select 'team1_player1', 'id', player_options, {}, :tabindex => 1
       = fields_for :team1_player2, Player.new do |player|
-        = select 'team1_player2', 'id', player_options
+        = select 'team1_player2', 'id', player_options, {}, :tabindex => 2
       .row
-        .span4
-          Score:
+        .span4.input-append
           = fields_for :team1, Team.new do |team|
-            = team.text_field :score, :class => 'span1'
-    .span1
-      VS
-    .span4
-      = fields_for :team2_player1, Player.new do |player|
-        = select 'team2_player1', 'id', player_options
+            = team.text_field :score, :class => 'span1', :placeholder => 'Score', :tabindex => 5
+            %button.btn#score1_11 11
+            %button.btn#score1_21 21
+          - score_button_script 'score1_11', 'team1_score', 11
+          - score_button_script 'score1_21', 'team1_score', 21
 
+    .span4
+      %h3 Team 2:
+      = fields_for :team2_player1, Player.new do |player|
+        = select 'team2_player1', 'id', player_options, {}, :tabindex => 3
       = fields_for :team2_player2, Player.new do |player|
-        = select 'team2_player2', 'id', player_options
+        = select 'team2_player2', 'id', player_options, {}, :tabindex => 4
       .row
-        .span4
-          Score:
+        .span4.input-append
           = fields_for :team2, Team.new do |team|
-            = team.text_field :score, :class => 'span1'
+            = team.text_field :score, :class => 'span1', :placeholder => 'Score', :tabindex => 6
+            %button.btn#score2_11 11
+            %button.btn#score2_21 21
+          - score_button_script 'score2_11', 'team2_score', 11
+          - score_button_script 'score2_21', 'team2_score', 21
+
   .row
-    .span9
+    .span4.offset4
       = game.submit :class => 'btn btn-primary'
