@@ -1,2 +1,4 @@
 %h3 Rating history
 #rating_chart.span3
+%script
+  ="var rating_history = #{rating_history.to_json};".html_safe

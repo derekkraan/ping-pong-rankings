@@ -1,6 +1,7 @@
 class Game < ActiveRecord::Base
   has_many :teams
   has_many :players, through: :teams
+  has_many :rating_histories
 
   include LoadRankingAlgorithm
 
@@ -63,5 +64,21 @@ class Game < ActiveRecord::Base
 
   def calculate_player_rankings
     ranking_algorithm.calculate(self)
+    record_rating_histories
+  end
+
+  def record_rating_histories
+    players.each do |player|
+      if history = rating_histories.where(player_id: player.id).first
+        history.rating = player.rating
+        history.save
+      else
+        history = RatingHistory.new
+        history.player = player
+        history.rating = player.rating
+        history.game = self
+        history.save
+      end
+    end
   end
 end

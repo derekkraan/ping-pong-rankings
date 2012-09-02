@@ -2,6 +2,7 @@ class Player < ActiveRecord::Base
   attr_accessible :name, :rating, :twitter
   has_and_belongs_to_many :teams
   has_many :games, through: :teams
+  has_many :rating_histories
 
   include LoadRankingAlgorithm
 
@@ -37,5 +38,12 @@ class Player < ActiveRecord::Base
 
   def reset_rating
     self.rating = ranking_algorithm::DEFAULT_PLAYER_RATING
+  end
+
+  def rating_histories
+    initial = RatingHistory.new
+    initial.player = self
+    initial.rating = ranking_algorithm::DEFAULT_PLAYER_RATING
+    [initial] + super.chronological_order
   end
 end
