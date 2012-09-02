@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(:version => 20120902084036) do
     t.integer "player_id"
   end
 
-  create_table "rating_history", :force => true do |t|
+  create_table "rating_histories", :force => true do |t|
     t.integer "game_id"
     t.integer "player_id"
     t.integer "rating"
