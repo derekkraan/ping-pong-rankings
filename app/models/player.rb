@@ -1,9 +1,7 @@
 class Player < ActiveRecord::Base
   attr_accessible :name, :rating, :twitter
-  has_many :games_as_t1p1, foreign_key: 'team1_player1_id', class_name: 'Game'
-  has_many :games_as_t1p2, foreign_key: 'team1_player2_id', class_name: 'Game'
-  has_many :games_as_t2p1, foreign_key: 'team2_player1_id', class_name: 'Game'
-  has_many :games_as_t2p2, foreign_key: 'team2_player2_id', class_name: 'Game'
+  has_and_belongs_to_many :teams
+  has_many :games, through: :teams
 
   include LoadRankingAlgorithm
 
@@ -13,26 +11,22 @@ class Player < ActiveRecord::Base
     Player.where(:name => name).exists? ? false : true
   end
 
-  def games
-    Game.by_player(id)
-  end
-
   def games_won
-    Game.won_by_player(id)
+    Game.won_by_player(self)
   end
 
   def games_lost
-    Game.lost_by_player(id)
+    Game.lost_by_player(self)
   end
 
   def winning_streak
-    latest_lost = games_lost.maximum(:created_at) || 1.year.ago
-    games_won.newer_than(latest_lost).count
+    latest_lost = games_lost.map(&:created_at).max || 1.year.ago
+    games.newer_than(latest_lost).won_by_player(self).count
   end
 
   def losing_streak
-    latest_won = games_won.maximum(:created_at) || 1.year.ago
-    games_lost.newer_than(latest_won).count
+    latest_won = games_won.map(&:created_at).max || 1.year.ago
+    games.newer_than(latest_won).lost_by_player(self).count
   end
 
   def streak

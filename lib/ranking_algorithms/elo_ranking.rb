@@ -2,26 +2,26 @@ class EloRanking
   # http://en.wikipedia.org/wiki/Elo_rating_system
   DEFAULT_PLAYER_RATING = 1500
 
-  def self.calculate(t1_score, t2_score, t1_p1, t1_p2, t2_p1, t2_p2)
+  def self.calculate(game)
 
-    t1 = [t1_p1, t1_p2].select &:present?
-    t2 = [t2_p1, t2_p2].select &:present?
+    t1 = game.teams.first
+    t2 = game.teams.second
 
-    t1_rating = (t1.map(&:rating).inject(&:+)).to_f / t1.count
-    t2_rating = (t2.map(&:rating).inject(&:+)).to_f / t2.count
+    t1_rating = (t1.players.map(&:rating).inject(&:+)).to_f / t1.players.count
+    t2_rating = (t2.players.map(&:rating).inject(&:+)).to_f / t2.players.count
 
     t1_expected = self.expected_score(t1_rating, t2_rating)
     t2_expected = 1 - t1_expected #self.expected_score(t2_rating, t1_rating)
 
-    t1_result = t1_score > t2_score ? 1 : 0
-    t2_result = t1_score < t2_score ? 1 : 0
+    t1_result = t1.score > t2.score ? 1 : 0
+    t2_result = t1.score < t2.score ? 1 : 0
 
-    t1.each do |player|
+    t1.players.each do |player|
       player.rating = player.rating + self.k_factor(player) * (t1_result - t1_expected)
       player.save
     end
 
-    t2.each do |player|
+    t2.players.each do |player|
       player.rating = player.rating + self.k_factor(player) * (t2_result - t2_expected)
       player.save
     end

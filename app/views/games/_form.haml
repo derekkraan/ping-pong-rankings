@@ -6,21 +6,29 @@
   %h3 Team 1: 
   .row
     .span4
-      = select 'game', 'team1_player1_id', player_options
-      = select 'game', 'team1_player2_id', player_options
+      = fields_for :team1_player1, Player.new do |player|
+        = select 'team1_player1', 'id', player_options
+
+      = fields_for :team1_player2, Player.new do |player|
+        = select 'team1_player2', 'id', player_options
       .row
         .span4
           Score:
-          = game.text_field :team1_score, :class => 'span1'
+          = fields_for :team1, Team.new do |team|
+            = team.text_field :score, :class => 'span1'
     .span1
       VS
     .span4
-      = select 'game', 'team2_player1_id', player_options
-      = select 'game', 'team2_player2_id', player_options
+      = fields_for :team2_player1, Player.new do |player|
+        = select 'team2_player1', 'id', player_options
+
+      = fields_for :team2_player2, Player.new do |player|
+        = select 'team2_player2', 'id', player_options
       .row
         .span4
           Score:
-          = game.text_field :team2_score, :class => 'span1'
+          = fields_for :team2, Team.new do |team|
+            = team.text_field :score, :class => 'span1'
   .row
     .span9
       = game.submit :class => 'btn btn-primary'

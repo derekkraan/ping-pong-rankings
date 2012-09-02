@@ -21,6 +21,15 @@ class GamesController < ApplicationController
 
   def create
     game = Game.new(params['game'])
+    (team1 = Team.new(params['team1'])).save
+    team1.players << Player.find(params['team1_player1']['id']) if params['team1_player1']['id'].present?
+    team1.players << Player.find(params['team1_player2']['id']) if params['team1_player2']['id'].present?
+
+    (team2 = Team.new(params['team2'])).save
+    team2.players << Player.find(params['team2_player1']['id']) if params['team2_player1']['id'].present?
+    team2.players << Player.find(params['team2_player2']['id']) if params['team2_player2']['id'].present?
+
+    game.teams << team1 << team2
 
     if game.save
       winners = game.winners.map { |p| p.twitter.present? ? "@#{p.twitter}" : p.name }

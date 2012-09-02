@@ -1,9 +1,6 @@
 class Game < ActiveRecord::Base
-  belongs_to :team1_player1, class_name: 'Player'
-  belongs_to :team1_player2, class_name: 'Player'
-  belongs_to :team2_player1, class_name: 'Player'
-  belongs_to :team2_player2, class_name: 'Player'
-  attr_accessible :ranking_impact, :team1_score, :team2_score, :team1_player1_id, :team1_player2_id, :team2_player1_id, :team2_player2_id
+  has_many :teams
+  has_many :players, through: :teams
 
   include LoadRankingAlgorithm
 
@@ -11,76 +8,52 @@ class Game < ActiveRecord::Base
 
   def valid?(context=nil)
     # Need to have at least two players
-    return false unless team1_player1 && team2_player1
+    logger.debug 'Need to have at least two players'
+    return false unless players.count >= 2
 
     # Need to have a score for each team
-    return false unless team1_score && team2_score
+    logger.debug 'Need to have a score for each team'
+    return false unless teams.all{ |team| score.present? }
 
     # If one team has two players, then the other team should too
-    return false if (team1_player2 && !team2_player2) || (team2_player2 && !team1_player2)
+    logger.debug 'If one team has two players, then the other team should too'
+    return false if teams.one?{ |team| team.players.count == 2 }
 
     # Make sure all players are unique
-    return false if players.count != players.uniq.count
+    logger.debug 'Make sure all players are unique'
 
+    return false unless (pls = teams.reduce([]){ |x,y| x + y.players.map(&:id) }).uniq.count == pls.count
+
+    logger.debug 'Validation OKAY'
     true
   end
 
-  def players
-    [team1_player1, team1_player2, team2_player1, team2_player2].find_all &:present?
-  end
-
-  def self.by_player(id)
-    g = Game.arel_table
-    where(
-      g[:team1_player1_id].eq(id)
-      .or(g[:team1_player2_id].eq(id))
-      .or(g[:team2_player1_id].eq(id))
-      .or(g[:team2_player2_id].eq(id))
-    )
-  end
-
-  def self.won_by_player(id)
-    g = Game.arel_table
-    where(
-      g[:team1_player1_id].eq(id).or(g[:team1_player2_id].eq(id))
-      .and(g[:team1_score].gt(g[:team2_score]))
-      .or(
-        g[:team2_player1_id].eq(id).or(g[:team2_player2_id].eq(id))
-        .and(g[:team1_score].lt(g[:team2_score]))
-      )
-    )
-  end
-
-  def self.lost_by_player(id)
-    g = Game.arel_table
-    where(
-      g[:team1_player1_id].eq(id).or(g[:team1_player2_id].eq(id))
-      .and(g[:team1_score].lt(g[:team2_score]))
-      .or(
-        g[:team2_player1_id].eq(id).or(g[:team2_player2_id].eq(id))
-        .and(g[:team1_score].gt(g[:team2_score]))
-      )
-    )
-  end
-
-  def winners
-    if team1_score > team2_score
-      [team1_player1, team1_player2].find_all &:present?
-    else
-      [team2_player1, team2_player2].find_all &:present?
+  def self.won_by_player(player)
+    select do |game|
+      game if game.winners.include? player
     end
   end
 
+  def self.lost_by_player(player)
+    select do |game|
+      game if game.losers.include? player
+    end
+  end
+
+  def winners
+    teams.select{ |team| team.score == winning_score }.first.players
+  end
+
   def losers
-    players - winners
+    teams.select{ |team| team.score == losing_score }.first.players
   end
 
   def winning_score
-    [team1_score, team2_score].max
+    teams.winning_score
   end
 
   def losing_score
-    [team1_score, team2_score].min
+    teams.losing_score
   end
 
   def self.newer_than(time)
@@ -89,6 +62,6 @@ class Game < ActiveRecord::Base
   end
 
   def calculate_player_rankings
-    ranking_algorithm.calculate(team1_score, team2_score, team1_player1, team1_player2, team2_player1, team2_player2)
+    ranking_algorithm.calculate(self)
   end
 end
