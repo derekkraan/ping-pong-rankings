@@ -3,7 +3,6 @@ class AddTeamsScores < ActiveRecord::Migration
     create_table :teams do |t|
       t.references :game
       t.integer :score
-      t.timestamps
     end
 
     create_table :players_teams do |s|
@@ -11,8 +10,8 @@ class AddTeamsScores < ActiveRecord::Migration
       s.references :player
     end
 
-    execute "INSERT INTO teams (game_id, created_at, score, updated_at) SELECT id AS game_id, created_at, team1_score, NOW() AS score FROM games"
-    execute "INSERT INTO teams (game_id, created_at, score, updated_at) SELECT id AS game_id, created_at, team2_score, NOW() AS score FROM games"
+    execute "INSERT INTO teams (game_id, score) SELECT id AS game_id, team1_score AS score FROM games"
+    execute "INSERT INTO teams (game_id, score) SELECT id AS game_id, team2_score AS score FROM games"
 
     execute "INSERT INTO players_teams (team_id, player_id) SELECT t.id AS team_id, g.team1_player1_id AS player_id FROM games g, teams t WHERE g.id = t.game_id AND t.score = g.team1_score"
     execute "INSERT INTO players_teams (team_id, player_id) SELECT t.id AS team_id, g.team1_player2_id AS player_id FROM games g, teams t WHERE g.id = t.game_id AND t.score = g.team1_score"
