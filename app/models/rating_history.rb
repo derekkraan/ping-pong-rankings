@@ -1,6 +1,6 @@
 class RatingHistory < ActiveRecord::Base
-  belongs_to :game
-  belongs_to :player
+  belongs_to :game, dependent: :destroy
+  belongs_to :player, dependent: :destroy
 
   def self.chronological_order
     g = Game.arel_table
