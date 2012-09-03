@@ -1,6 +1,6 @@
 = form_for @game do |game|
   = game.hidden_field :id
-  - player_options = [['-', nil]] + Player.order('name asc').map do |player|
+  - player_options = [['-', nil]] + Player.order('name ASC').map do |player|
     - [player.name, player.id]
 
   .row
@@ -37,3 +37,4 @@
   .row
     .span4.offset4
       = game.submit :class => 'btn btn-primary'
+      - buffer_script "$('#new_game').submit(function(e) {$('#new_game').find('.btn-primary').addClass('disabled')});"
