@@ -1,6 +1,6 @@
 class PlayersController < ApplicationController
   def show
-    @player = Player.find(params[:id])
+    @player = Player.includes([:games, :teams, :rating_histories]).find(params[:id])
   end
 
   def new

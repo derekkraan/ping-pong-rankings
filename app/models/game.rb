@@ -50,11 +50,11 @@ class Game < ActiveRecord::Base
   end
 
   def winning_score
-    teams.winning_score
+    teams.map(&:score).max
   end
 
   def losing_score
-    teams.losing_score
+    teams.map(&:score).min
   end
 
   def self.newer_than(time)
