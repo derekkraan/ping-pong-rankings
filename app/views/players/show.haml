@@ -1,11 +1,13 @@
-- content_for :title, @player.name
--# content_for :sidebar, render(:partial => 'rating_graph', :locals => { :rating_history => @player.rating_histories })
-.row
-  .span1
-    = link_to('Edit '.html_safe << content_tag(:i, '', :class => 'icon-pencil'), edit_player_path(@player))
+- content_for :title, @player.name#"#{@player.name} #{link_to content_tag(:i, '', :class => 'icon-pencil'), edit_player_path(@player)}".html_safe
 .row
   .span9
-    %h3 Recent games
+    %h3 Rating History
+    #rating_chart.span9{ :style => 'height: 350px;' }
+    - line_graph 'rating_chart', @player.rating_histories.map(&:rating)
+
+.row
+  .span9
+    %h3 Games Played
     %table.table.table-striped
       %tbody
         - @player.games.order('created_at desc').where(:created_at => 30.days.ago..Time.now).each do |game|
@@ -33,6 +35,6 @@
                 = "against"
                 = "#{game.winners.map{|player| link_to(player.name, player)}.to_sentence}".html_safe
 
-    %h3 Rating History
-    #rating_chart.span9{ :style => 'height: 500px;' }
-    - line_graph 'rating_chart', @player.rating_histories.map(&:rating)
+.row
+  .span1
+    = link_to('Edit '.html_safe << content_tag(:i, '', :class => 'icon-pencil'), edit_player_path(@player))

@@ -1,10 +1,12 @@
+- extra_column = Game.newer_than(5.minutes.ago).present?
 %table.table.table-striped.table-bordered.table-condensed
   %thead
     %tr
       %th Winners
       %th Score
       %th Losers
-      %th
+      - if extra_column
+        %th
   %tbody
     - games = Game.order('created_at DESC').limit(5)
     - games.each do |game|
@@ -12,7 +14,8 @@
         %td= game.winners.map(&:name).to_sentence
         %td= "#{game.winning_score}-#{game.losing_score}"
         %td= game.losers.map(&:name).to_sentence
-        %td
-          - if game.created_at > 5.minutes.ago
-            = link_to game_path(game), :method => 'delete' do
-              %span.icon-remove
+        - if extra_column
+          %td
+            - if game.created_at > 5.minutes.ago
+              = link_to game_path(game), :method => 'delete' do
+                %span.icon-remove
