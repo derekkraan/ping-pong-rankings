@@ -2,7 +2,7 @@ class Player < ActiveRecord::Base
   attr_accessible :name, :rating, :twitter
   has_and_belongs_to_many :teams
   has_many :games, through: :teams
-  has_many :rating_histories
+  has_many :rating_histories, dependent: :destroy
 
   include LoadRankingAlgorithm
 

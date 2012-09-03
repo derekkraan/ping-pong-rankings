@@ -13,7 +13,7 @@ class GamesController < ApplicationController
   def update
     @game = Game.find(params[:id])
     if @game.update_attributes(params[:game])
-      redirect_to '/ranking'
+      recalculate
     else
       render 'save_fail'
     end
@@ -46,8 +46,8 @@ class GamesController < ApplicationController
     end
   end
 
-  def del
-    Game.delete(params['game_id'])
+  def destroy
+    Game.destroy(params['id'])
     recalculate
   end
 

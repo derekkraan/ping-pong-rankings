@@ -14,10 +14,8 @@
         %h1
           = yield :title
         .row
-          .span9
+          .span12
             = yield
-          .span3
-            = yield :sidebar
 = javascript_include_tag 'application'
 %script
   = print_buffered_scripts

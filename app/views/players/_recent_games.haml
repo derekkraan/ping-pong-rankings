@@ -1,0 +1,18 @@
+%table.table.table-striped.table-bordered.table-condensed
+  %thead
+    %tr
+      %th Winners
+      %th Score
+      %th Losers
+      %th
+  %tbody
+    - games = Game.order('created_at DESC').limit(5)
+    - games.each do |game|
+      %tr{ :class => game.created_at > 5.minutes.ago ? 'success' : '' }
+        %td= game.winners.map(&:name).to_sentence
+        %td= "#{game.winning_score}-#{game.losing_score}"
+        %td= game.losers.map(&:name).to_sentence
+        %td
+          - if game.created_at > 5.minutes.ago
+            = link_to game_path(game), :method => 'delete' do
+              %span.icon-remove

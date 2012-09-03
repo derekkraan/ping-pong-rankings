@@ -37,4 +37,4 @@
   .row
     .span4.offset4
       = game.submit :class => 'btn btn-primary'
-      - buffer_script "$('#new_game').submit(function(e) {$('#new_game').find('.btn-primary').addClass('disabled')});"
+      - buffer_script "$('#new_game').submit(function(e) {$('#new_game').find('.btn-primary').addClass('disabled').attr('disabled', true)});"

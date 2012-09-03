@@ -1,7 +1,7 @@
 class Game < ActiveRecord::Base
   has_many :teams
   has_many :players, through: :teams
-  has_many :rating_histories
+  has_many :rating_histories, dependent: :destroy
 
   include LoadRankingAlgorithm
 
