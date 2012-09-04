@@ -6,10 +6,10 @@
   .row
     - (1..2).each do |i|
       .span4
-        %h3 Team 1:
+        %h3= "Team #{i}:"
         - (1..2).each do |j|
           = fields_for "team#{i}_player#{j}", Player.new do |player|
-            = select "team#{i}_player#{j}", 'id', player_options, {}, :tabindex => 1
+            = select "team#{i}_player#{j}", 'id', player_options, {}, :tabindex => (i-1)*2+(j)
 
   - num_games = @game.new_record? ? 7 : 1
   - (1..num_games).each do |i|
@@ -21,7 +21,7 @@
               .span4.input-append
                 = fields_for "game#{i}" do |game|
                   = game.fields_for "team#{j}" do |team|
-                    = team.text_field :score, :class => 'span1', :placeholder => 'Score', :tabindex => 6
+                    = team.text_field :score, :class => 'span1', :placeholder => 'Score', :tabindex => 5
                     %button.btn{ :id => "score_#{i}_#{j}_11" } 11
                     %button.btn{ :id => "score_#{i}_#{j}_21" } 21
                     - score_button_script "score_#{i}_#{j}_11", "game#{i}_team#{j}_score", 11
