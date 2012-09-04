@@ -20,26 +20,40 @@ class GamesController < ApplicationController
   end
 
   def create
-    game = Game.new(params['game'])
-    (team1 = Team.new(params['team1'])).save
-    team1.players << Player.find(params['team1_player1']['id']) if params['team1_player1']['id'].present?
-    team1.players << Player.find(params['team1_player2']['id']) if params['team1_player2']['id'].present?
+    games = (1..3).map{|i| params["game#{i}"]}.select{|game| game['team1']['score'].present? && game['team2']['score'].present? }
 
-    (team2 = Team.new(params['team2'])).save
-    team2.players << Player.find(params['team2_player1']['id']) if params['team2_player1']['id'].present?
-    team2.players << Player.find(params['team2_player2']['id']) if params['team2_player2']['id'].present?
+    results = games.map do |_game|
+      game = Game.new(params['game'])
 
-    game.teams << team1 << team2
+      team1 = Team.new(params['team1'])
+      team1.score = _game['team1']['score']
+      team1.players << Player.find(params['team1_player1']['id']) if params['team1_player1']['id'].present?
+      team1.players << Player.find(params['team1_player2']['id']) if params['team1_player2']['id'].present?
+      team1.save
 
-    if game.save
-      winners = game.winners.map { |p| p.twitter.present? ? "@#{p.twitter}" : p.name }
-      losers = game.losers.map { |p| p.twitter.present? ? "@#{p.twitter}" : p.name }
-      begin
-        Twitter.update("#{winners.to_sentence} beat #{losers.to_sentence} #{game.winning_score} - #{game.losing_score}")
-      rescue
-        logger.debug "Twitter post failed for Game id: #{game.id}"
+      team2 = Team.new(params['team2'])
+      team2.score = _game['team2']['score']
+      team2.players << Player.find(params['team2_player1']['id']) if params['team2_player1']['id'].present?
+      team2.players << Player.find(params['team2_player2']['id']) if params['team2_player2']['id'].present?
+      team2.save
+
+      game.teams << team1 << team2
+
+      if game.save
+        winners = game.winners.map { |p| p.twitter.present? ? "@#{p.twitter}" : p.name }
+        losers = game.losers.map { |p| p.twitter.present? ? "@#{p.twitter}" : p.name }
+        begin
+          Twitter.update("#{winners.to_sentence} beat #{losers.to_sentence} #{game.winning_score} - #{game.losing_score}")
+        rescue
+          logger.debug "Twitter post failed for Game id: #{game.id}"
+        end
+        game
+      else
+        false
       end
+    end
 
+    if results.all?
       redirect_to '/ranking'
     else
       render 'save_fail'
