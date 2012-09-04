@@ -20,7 +20,7 @@ class GamesController < ApplicationController
   end
 
   def create
-    games = (1..3).map{|i| params["game#{i}"]}.select{|game| game['team1']['score'].present? && game['team2']['score'].present? }
+    games = (1..7).map{|i| params["game#{i}"]}.select{|game| game['team1']['score'].present? && game['team2']['score'].present? }
 
     results = games.map do |_game|
       game = Game.new(params['game'])
