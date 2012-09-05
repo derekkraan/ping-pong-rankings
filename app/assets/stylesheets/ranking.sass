@@ -1,3 +1,7 @@
+@import "variable"
+@import "mixin"
+
+
 span.spark_line
   width: 100px
   height: 100%
@@ -11,3 +15,131 @@ span.spark_line
 td.spark_line
   padding-top: 0
   padding-bottom: 0
+
+
+.ranking
+  .ranking-header
+    @include clearfix()
+    padding-bottom: 10px
+    font-size: 0.8em
+  span, a
+    float: left
+    padding: 0 10px
+  .ranking
+    width: 25px
+  .player-name
+    width: 150px
+    font-weight: bold
+  .games
+    width: 25px
+  .rating
+    width: 75px
+  .streak
+    width: 75px
+
+.panda-players
+  width: 460px
+  height: 147px
+  background: url(/assets/panda-players.png) no-repeat 0 0 transparent
+  display: block
+
+  &.flipped
+    background-position: 0 -147px
+
+.game-row
+  padding: 4px 0
+  margin-bottom: 3px
+  @include border-radius(5px)
+  @include gradient-vertical(#FFF, #EEE)
+  @include box-shadow(inset 0 0 0 1px #FFF)
+  border: 1px solid $borderColor
+  @include clearfix()
+  font-size: 0.8em
+
+  .player
+    float: left
+    width: 174px
+    padding: 1px $gridPadding 0
+
+    &.first-player
+      text-align: right
+
+    .player-name
+      font-size: 1.7em
+      padding: 5px 0 10px
+
+    .player-ranking
+      color: #818181
+      font-style: italic
+      padding: 0 12px
+
+  .game-score
+    float: left
+    width: 52px
+    margin: 0 5px
+
+    span
+      float: left
+      width: 20px
+      height: 20px
+      margin-right: 0px
+      @include border-radius(3px)
+      @include gradient-vertical(#6f6f6f, #181818)
+      @include box-shadow(0 0 0 2px rgba(0,0,0,0.15))
+      color: #FFF
+      font-weight: bold
+      text-align: center
+
+      &:first-child
+        margin-right: $gridPadding - 1
+
+  .label
+    padding: 5px
+    @include border-radius(3px)
+    @include gradient-vertical(#60ba13, darken(#60ba13, 20%))
+    @include box-shadow(inset 1px 1px 3px rgba(0,0,0,0.5))
+    color: #FFF
+    font-weight: bold
+    font-size: 0.75em
+    line-height: 1em
+
+  .losser
+    .label
+      @include gradient-vertical(#cf5050, darken(#cf5050, 20%))
+
+  .first-player
+    .label
+      float: left
+
+  .second-player
+    .label
+      float: right
+
+
+.large-game
+  padding: 25px 0
+
+  .player
+    width: 132px
+
+    .label
+      padding: 2px 5px 3px
+      float: none
+
+  .game-score
+    width: 135px
+
+    span
+      width: 60px
+      height: 42px
+      padding-top: 18px
+      font-size: 3.5em
+      @include box-shadow(0 0 0 4px rgba(0,0,0,0.15))
+
+      &:first-child
+        margin-right: 15px
+
+
+
+
+

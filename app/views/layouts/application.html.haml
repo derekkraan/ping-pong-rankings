@@ -3,7 +3,6 @@
   %head
     %title PingPongGuru
     %link{:rel => 'shortcut icon', :href => '/favicon.ico', :type => 'image/x-icon'}
-    %link{:href => "http://twitter.github.com/bootstrap/assets/css/bootstrap.css", :rel => "stylesheet"}
     = stylesheet_link_tag 'application', :media => 'all'
     = csrf_meta_tags
   %body
@@ -11,11 +10,9 @@
 
     .container
       .content
-        %h1
-          = yield :title
         .row
-          .span12
-            = yield
-= javascript_include_tag 'application'
-%script
-  = print_buffered_scripts
+          = javascript_include_tag 'application'
+          %script
+            = print_buffered_scripts
+          = yield
+          //= yield :sidebar

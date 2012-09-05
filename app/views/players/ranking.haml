@@ -1,6 +1,73 @@
-- content_for :title, 'Player Rankings'
-.row
-  .span6
-    = render 'ranking'
-  .span5.pull-right
-    = render 'recent_games'
+.span6
+  %h1 Player rankings
+  //= render 'ranking'
+  .ranking
+    .ranking-header
+      %span.ranking #
+      %span.player-name Name
+      %span.games GP
+      %span.rating Rating
+      %span.streak Streak
+    .rakning-list
+      .game-row
+        %span.ranking 1
+        = link_to 'a', '#', :class => 'player-name'
+        %span.games  21
+        %span.rating 1500
+        %span.streak 3
+
+.span6
+  //= render 'recent_games'
+  .panda-players
+  .game-row.large-game
+    .player.first-player
+      %h2.player-name Peter
+      %span.player-ranking 1582
+      %span.label +32
+    .game-score
+      %span 21
+      %span 19
+    .player.second-player.losser
+      %h2.player-name Ruben
+      %span.label -32
+      %span.player-ranking 1423
+
+  .game-row
+    .player.first-player 
+      %span.label winning 
+      Mathijs &amp; Ruben
+    .game-score
+      %span 23
+      %span 21
+    .player.second-player
+      Wouter &amp; Martijn
+
+  .game-row
+    .player.first-player 
+      Derek &amp; Dennis
+    .game-score
+      %span 19
+      %span 21
+    .player.second-player
+      %span.label winning 
+      Wouter &amp; Pierrot
+
+  .game-row
+    .player.first-player 
+      Pierrot
+    .game-score
+      %span 17
+      %span 21
+    .player.second-player
+      %span.label winning 
+      Wouter
+
+  .game-row
+    .player.first-player 
+      %span.label winning 
+      Dennis
+    .game-score
+      %span 21
+      %span 13
+    .player.second-player
+      Arjan
