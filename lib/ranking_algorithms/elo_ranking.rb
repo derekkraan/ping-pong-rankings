@@ -17,12 +17,12 @@ class EloRanking
     t2_result = t1.score < t2.score ? 1 : 0
 
     t1.players.each do |player|
-      player.rating = player.rating + self.k_factor(player) * (t1_result - t1_expected)
+      player.rating = player.rating + self.rating_impact(player.rating, t1_expected, t1_result)
       player.save
     end
 
     t2.players.each do |player|
-      player.rating = player.rating + self.k_factor(player) * (t2_result - t2_expected)
+      player.rating = player.rating + self.rating_impact(player.rating, t2_expected, t2_result)
       player.save
     end
 
@@ -32,11 +32,24 @@ class EloRanking
     1.0 / (1.0 + 10**((p2_rating - p1_rating).to_f/400))
   end
 
-  def self.k_factor(player)
+  def self.k_factor(rating)
     # USCF rules for determining K-factor (higher value means more responsive to recent wins / losses)
-    return 32 if player.rating < 2100
-    return 24 if player.rating < 2400
+    return 32 if rating < 2100
+    return 24 if rating < 2400
     16
+  end
+
+  def self.rating_impact(rating, expectation, result)
+    self.k_factor(rating) * (result - expectation)
+  end
+
+  def self.possible_results(p1_rating, p2_rating)
+    [
+      { rating: p1_rating, expectation: (exp = self.expected_score(p1_rating, p2_rating)) },
+      { rating: p2_rating, expectation: 1 - exp },
+    ].map do |expectation|
+      [self.rating_impact(expectation[:rating], expectation[:expectation], 1), self.rating_impact(expectation[:rating], expectation[:expectation], 0)]
+    end
   end
   
 end
