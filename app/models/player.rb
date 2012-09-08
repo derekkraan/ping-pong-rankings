@@ -20,25 +20,19 @@ class Player < ActiveRecord::Base
     games.where(teams: { winners: false })
   end
 
-  def winning_streak
-    latest_lost = games_lost.map(&:created_at).max || 1.year.ago
-    games.newer_than(latest_lost).won_by_player(self).count
-  end
-
-  def losing_streak
-    latest_won = games_won.map(&:created_at).max || 1.year.ago
-    games.newer_than(latest_won).lost_by_player(self).count
-  end
-
   def streak
-    last_game_lost = (games_lost.order('created_at desc').first || Game.new).created_at
-    last_game_won = (games_won.order('created_at desc').first || Game.new).created_at
+    return games.count if games_lost.count == 0
+    return -games.count if games_won.count == 0
 
-    losing_streak = games_lost.newer_than(last_game_won).count
-    return -losing_streak if losing_streak > 0
+    last_game_won = games_won.order('created_at desc').first.created_at
+    last_game_lost = games_lost.order('created_at desc').first.created_at
 
-    winning_streak = games_won.newer_than(last_game_lost).count
-    return winning_streak if winning_streak > 0
+    if last_game_won > last_game_lost
+      return games_won.newer_than(last_game_lost).count
+    else
+      return -games_lost.newer_than(last_game_won).count
+    end
+
   end
 
   def reset_rating
