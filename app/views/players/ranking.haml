@@ -1,6 +1,13 @@
 - content_for :title, 'Player Rankings'
 .row
   .span6
-    = render 'ranking'
+    .row
+      .span6
+        = render 'ranking'
+    .row
+      .span6
+        %h3 Potential Points Matrix
+        = render 'possibility_matrix'
   .span5.pull-right
+    %h3 Recent Games
     = render 'recent_games'

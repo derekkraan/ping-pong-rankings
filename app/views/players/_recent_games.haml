@@ -2,18 +2,24 @@
 %table.table.table-striped.table-bordered.table-condensed
   %thead
     %tr
-      %th Winners
+      %th/
       %th Score
-      %th Losers
+      %th/
       - if extra_column
         %th
   %tbody
-    - games = Game.order('created_at DESC').limit(5)
+    - games = Game.order('created_at DESC').limit(15)
     - games.each do |game|
       %tr{ :class => game.created_at > 5.minutes.ago ? 'success' : '' }
-        %td= game.winners.map(&:name).to_sentence
-        %td= "#{game.winning_score}-#{game.losing_score}"
-        %td= game.losers.map(&:name).to_sentence
+        %td.span2
+          - team = game.teams.first
+          = team.players.map(&:name).to_sentence
+          = results_badge(team)
+        %td.span1= "#{game.teams.first.score}-#{game.teams.second.score}"
+        %td.span2{ :style => 'text-align: right' }
+          - team = game.teams.second
+          = results_badge(team)
+          = team.players.map(&:name).to_sentence
         - if extra_column
           %td
             - if game.created_at > 5.minutes.ago

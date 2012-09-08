@@ -1,0 +1,35 @@
+%table.table.table-bordered.table-striped
+  -players = Player.order('rating desc, name asc')
+  %thead
+    %tr
+      %th Players
+      -players.each do |player|
+        %th{:colspan => 2}= player.name
+  %tbody
+    -players.each do |player|
+      %tr
+        %th{:rowspan => 2}= player.name
+        -players.each do |opponent|
+          -if player == opponent
+            %td/
+            %td/
+          -else
+            -possibilities = player.ranking_algorithm.possible_results(player.rating, opponent.rating)
+            %td
+              %small.text-success
+                %strong
+                  = number_to_human(possibilities[0][0], :precision => 0)
+            %td/
+      %tr
+        -players.each do |opponent|
+          -if player == opponent
+            %td/
+            %td/
+          -else
+            -possibilities = player.ranking_algorithm.possible_results(player.rating, opponent.rating)
+            %td/
+            %td
+              %small.text-error
+                %strong
+                  = number_to_human(possibilities[0][1], :precision => 0)
+

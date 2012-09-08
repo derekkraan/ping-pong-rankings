@@ -1,7 +1,7 @@
 module StreakHelper
   def streak_label streak
     if streak > 2
-      content_tag :span, class: 'label label-important' do
+      content_tag :span, class: 'badge badge-important' do
         case streak
         when 3..5
           "HOT STREAK"
@@ -14,7 +14,7 @@ module StreakHelper
         end
       end
     elsif streak < -2
-      content_tag :span, class: 'label' do
+      content_tag :span, class: 'badge' do
         "LOSING"
       end
     end

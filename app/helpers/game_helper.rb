@@ -7,4 +7,12 @@ module GameHelper
         $('##{target_element_id}').val(#{target_value});
       });"
   end
+
+  def results_badge(team)
+    if team.winners
+      content_tag :span, "W", class: 'badge badge-success'
+    else
+      content_tag :span, "L", class: 'badge badge-important'
+    end
+  end
 end
