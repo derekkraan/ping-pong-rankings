@@ -18,13 +18,13 @@
             = rank if player.rating != last_rating
           %td
             = link_to player.name, player
-            =# streak_label player.streak
+            = streak_label player.streak
           %td.spark_line
             %span.spark_line{ :id => "rating_spark_#{player.id}", :style => "width: #{[100,10 * player.games.count].min}px;" }
             - spark_line "rating_spark_#{player.id}", player.rating_histories.map(&:rating)
           %td= player.games.count
           %td= player.rating
-          %td=# player.streak
+          %td= player.streak
 
           - rank += 1 if player.rating != last_rating
           - last_rating = player.rating

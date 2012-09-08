@@ -1,5 +1,5 @@
 class Game < ActiveRecord::Base
-  has_many :teams
+  has_many :teams, dependent: :destroy
   has_many :players, through: :teams
   has_many :rating_histories, dependent: :destroy
 
@@ -16,6 +16,9 @@ class Game < ActiveRecord::Base
     logger.debug 'Need to have a score for each team'
     return false unless teams.all{ |team| score.present? }
 
+    # Not the same score for both players
+    return false if teams.first.score == teams.second.score
+
     # If one team has two players, then the other team should too
     logger.debug 'If one team has two players, then the other team should too'
     return false if teams.one?{ |team| team.players.count == 2 }
@@ -29,32 +32,28 @@ class Game < ActiveRecord::Base
     true
   end
 
-  def self.won_by_player(player)
-    select do |game|
-      game if game.winners.include? player
-    end
+  def winning_team
+    teams.where(winners: true).first
   end
 
-  def self.lost_by_player(player)
-    select do |game|
-      game if game.losers.include? player
-    end
+  def losing_team
+    teams.where(winners: false).first
   end
 
   def winners
-    teams.select{ |team| team.score == winning_score }.first.players
+    winning_team.players
   end
 
   def losers
-    teams.select{ |team| team.score == losing_score }.first.players
+    losing_team.players
   end
 
   def winning_score
-    teams.map(&:score).max
+    winning_team.score
   end
 
   def losing_score
-    teams.map(&:score).min
+    losing_team.score
   end
 
   def self.newer_than(time)
@@ -63,6 +62,8 @@ class Game < ActiveRecord::Base
   end
 
   def calculate_player_rankings
+    high_score = teams.map(&:score).max
+    teams.each { |t| t.winners = (t.score == high_score); t.save }
     ranking_algorithm.calculate(self)
     record_rating_histories
   end
@@ -80,5 +81,13 @@ class Game < ActiveRecord::Base
         history.save
       end
     end
+  end
+
+  def self.recalculate_all
+    players = Player.all
+    players.each &:reset_rating
+    players.each &:save
+
+    self.order('created_at asc').each &:calculate_player_rankings
   end
 end

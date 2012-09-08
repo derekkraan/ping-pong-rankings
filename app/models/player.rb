@@ -13,11 +13,11 @@ class Player < ActiveRecord::Base
   end
 
   def games_won
-    Game.won_by_player(self)
+    games.where(teams: { winners: true })
   end
 
   def games_lost
-    Game.lost_by_player(self)
+    games.where(teams: { winners: false })
   end
 
   def winning_streak
@@ -31,9 +31,14 @@ class Player < ActiveRecord::Base
   end
 
   def streak
-    return winning_streak if winning_streak > 0
+    last_game_lost = (games_lost.order('created_at desc').first || Game.new).created_at
+    last_game_won = (games_won.order('created_at desc').first || Game.new).created_at
+
+    losing_streak = games_lost.newer_than(last_game_won).count
     return -losing_streak if losing_streak > 0
-    0
+
+    winning_streak = games_won.newer_than(last_game_lost).count
+    return winning_streak if winning_streak > 0
   end
 
   def reset_rating

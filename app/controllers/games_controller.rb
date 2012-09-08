@@ -13,7 +13,8 @@ class GamesController < ApplicationController
   def update
     @game = Game.find(params[:id])
     if @game.update_attributes(params[:game])
-      recalculate
+      Game.recalculate_all
+      redirect_to '/ranking'
     else
       render 'save_fail'
     end
@@ -61,16 +62,16 @@ class GamesController < ApplicationController
   end
 
   def destroy
-    Game.destroy(params['id'])
-    recalculate
+    game = Game.find(params['id'])
+    if game.created_at > 5.minutes.ago
+      game.destroy()
+      Game.recalculate_all
+    end
+    redirect_to '/ranking'
   end
 
   def recalculate
-    players = Player.all
-    players.each &:reset_rating
-    players.each &:save
-
-    Game.order('created_at asc').each &:calculate_player_rankings
+    Game.recalculate_all
     redirect_to '/ranking'
   end
 
