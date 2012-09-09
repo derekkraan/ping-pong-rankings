@@ -57,7 +57,7 @@ module GraphHelper
       max: RatingHistory.maximum(:rating),
       focus_radius: 18,
       dot_radius: 3,
-      labels: x_labels ? { values: x_labels, angle: 50 } : (1..y_values.last.count),
+      labels: x_labels ? { values: x_labels, angle: -50 } : (1..y_values.last.count),
       grid: { stroke: '#DDD' },
       colors: colours.slice(0,y_values.count),
       mouseover_attributes: { stroke: 'green' },
