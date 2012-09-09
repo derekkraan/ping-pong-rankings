@@ -1,11 +1,11 @@
 - content_for :title, @player.name
 %ul.nav.nav-tabs
-  %li#nav-history-graph
-    = link_to '#history-graph' do
-      History Graph
   %li#nav-recent-games
     = link_to '#recent-games' do
       Games Played
+  %li#nav-history-graph
+    = link_to '#history-graph' do
+      History Graph
   %li#nav-player-edit
     = link_to('Edit '.html_safe << content_tag(:i, '', :class => 'icon-pencil'), edit_player_path(@player))
 
@@ -27,6 +27,7 @@
                   = "with #{link_to teammate.name, teammate}".html_safe
                 = "against"
                 = "#{game.losers.map{|player| link_to(player.name, player)}.to_sentence}".html_safe
+                = "on #{game.created_at.strftime('%d %b %y')}"
             - else
               %td.span1
                 %span.badge.badge.pull-right LOST
@@ -38,6 +39,7 @@
                   = "with #{link_to teammate.name, teammate}".html_safe
                 = "against"
                 = "#{game.winners.map{|player| link_to(player.name, player)}.to_sentence}".html_safe
+                = "on #{game.created_at.strftime('%d %b %y')}"
 
 .row#history-graph.hide
   .span9

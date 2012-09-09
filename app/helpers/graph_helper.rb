@@ -38,6 +38,10 @@ module GraphHelper
         _dates.each_with_index do |date,j|
           if dates[i].include? date
             k = dates[i].index date
+            # k is the first index where dates[i][k] == date. We want the last, hence this while loop.
+            while dates[i][k] == dates[i][k+1]
+              k += 1
+            end
             _y_values[i][j] = y_values[i][k]
           else
             _y_values[i][j] = _y_values[i][j-1]
