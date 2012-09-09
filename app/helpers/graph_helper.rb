@@ -32,21 +32,29 @@ module GraphHelper
       _display_labels = []
       _dates = dates.reduce{ |a,b| a + b }.uniq.sort
       (0...y_values.count).each do |i|
-        (0...y_values[i].count).each do |j|
-          date = dates[i][j]
-          _y_values[i] ||= {}
-          _display_labels[i] ||= {}
-          _y_values[i][date] = y_values[i][j]
-          _display_labels[i][date] = display_labels[i][j]
+        _dates.each_with_index do |date,j|
+          _y_values[i] ||= []
+          _display_labels[i] ||= []
+
+          if dates[i].include? date
+            k = dates[i].index date
+            _y_values[i][j] = y_values[i][k]
+            _display_labels[i][j] = display_labels[i][k]
+          else
+            _y_values[i][j] = _y_values[i][j-1]
+            _display_labels[i][j] = _display_labels[i][j-1]
+          end
         end
       end
-      y_values = _y_values.map &:values
-      display_labels = _display_labels.map &:values
-      dates = _dates
-      x_labels = dates
+
+      y_values = _y_values
+      display_labels = _display_labels
+
+      x_labels = dates = _dates
 
       options = {
         dot_radius: 4,
+        curve_amount: 30,
       }.merge options
     end
 
