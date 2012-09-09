@@ -1,11 +1,15 @@
 - content_for :title, @player.name
-.row
-  .span9
-    %h3 Rating History
-    #rating_chart.span9{ :style => 'height: 350px;' }
-    - line_graph 'rating_chart', @player
+%ul.nav.nav-tabs
+  %li#nav-history-graph
+    = link_to '#history-graph' do
+      History Graph
+  %li#nav-recent-games
+    = link_to '#recent-games' do
+      Games Played
+  %li#nav-player-edit
+    = link_to('Edit '.html_safe << content_tag(:i, '', :class => 'icon-pencil'), edit_player_path(@player))
 
-.row
+.row#recent-games
   .span9
     %h3 Games Played
     %table.table.table-striped
@@ -35,6 +39,14 @@
                 = "against"
                 = "#{game.winners.map{|player| link_to(player.name, player)}.to_sentence}".html_safe
 
-.row
-  .span1
-    = link_to('Edit '.html_safe << content_tag(:i, '', :class => 'icon-pencil'), edit_player_path(@player))
+.row#history-graph.hide
+  .span9
+    %h3 Rating History
+    #rating_chart.span9{ :style => 'height: 350px;' }
+    - line_graph 'rating_chart', @player
+
+.row#player-edit.hide
+  .span5
+    = render 'form'
+
+-buffer_script "$('#nav-recent-games a').click();"

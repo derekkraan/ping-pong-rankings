@@ -14,7 +14,7 @@ class PlayersController < ApplicationController
   def update
     @player = Player.find(params[:id])
     if @player.update_attributes(params[:player])
-      redirect_to new_player_path
+      redirect_to @player
     else
       render 'save_fail'
     end

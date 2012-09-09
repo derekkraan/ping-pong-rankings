@@ -93,6 +93,7 @@ module GraphHelper
     )
 
     script = %Q(
+      $('##{element_id}').parents().removeClass('hide');
       var display_labels = #{display_labels.to_json};
       rating_graph = new Ico.LineGraph(
         #{element_id.to_json},
