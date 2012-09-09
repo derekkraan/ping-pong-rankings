@@ -13,5 +13,5 @@
 //= require jquery
 //= require jquery_ujs
 //= require graph/raphael-min.js
-//= require graph/ico-min.js
+//= require graph/ico.js
 //= require_tree .
