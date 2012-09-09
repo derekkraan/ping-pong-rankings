@@ -1,4 +1,2 @@
-.row
-  .span6
-    #rating_history_chart.span6{ :style => 'height: 350px;' }/
-    - line_graph 'rating_history_chart', Player.all, { focus_radius: 10, dot_radius: 3, group_by_dates: true, curve_amount: 30 }
+#rating_history_chart.span6{ :style => 'height: 350px;' }
+  - line_graph 'rating_history_chart', players, { focus_radius: 10, group_by_dates: true, curve_amount: 30 }

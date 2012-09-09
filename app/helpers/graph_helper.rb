@@ -45,12 +45,12 @@ module GraphHelper
       dates = _dates
       x_labels = dates
 
-      buffer_script y_values.to_json
-      buffer_script display_labels.to_json
-      buffer_script dates.to_json
+      options = {
+        dot_radius: 4,
+      }.merge options
     end
 
-    colours = ['#00F', '#0F0', '#F00', '#FF0', '#F0F', '#0FF', '#FFF', '#88F', '#8F8', '#F88', '#FF8', '#F8F', '#8FF', '#888', '#008', '#080', '#800', '#880', '#808', '#088']
+    colours = ['#C33', '#3C3', '#33C', '#CC3', '#C3C', '#3CC', '#CCC', '#88C', '#8C8', '#C88', '#CC8', '#C8C', '#8CC', '#888', '#338', '#383', '#833', '#883', '#838', '#388']
 
     options = {
       min: RatingHistory.minimum(:rating),
@@ -58,11 +58,10 @@ module GraphHelper
       focus_radius: 18,
       dot_radius: 3,
       labels: x_labels ? { values: x_labels, angle: 50 } : (1..y_values.last.count),
-      grid: { stroke: '#555' },
+      grid: { stroke: '#DDD' },
       colors: colours.slice(0,y_values.count),
-      status_bar: true,
       mouseover_attributes: { stroke: 'green' },
-      background: { color: "#777" },
+      background: { color: "#FFF" },
     }.merge options
 
     mouseover_callback = %Q(

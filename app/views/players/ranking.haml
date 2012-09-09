@@ -1,17 +1,19 @@
 - content_for :title, 'Player Rankings'
+- players = Player.order('rating desc, name asc')
 .row
   .span6
     .row
       .span6
-        = render 'ranking'
+        = render :partial => 'ranking', :locals => { :players => players }
     .row
       .span6
         %h3 Point Potential Matrix
-        = render 'possibility_matrix'
+        = render :partial => 'possibility_matrix', :locals => { :players => players }
     .row
       .span6
         %h3 Rating History Chart
-        = render 'rating_history'
+        = render :partial => 'rating_history', :locals => { :players => players }
+
   .span5.pull-right
     %h3 Recent Games
     = render 'recent_games'
