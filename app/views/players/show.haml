@@ -45,7 +45,7 @@
   .span9
     %h3 Rating History
     #rating_chart.span9{ :style => 'height: 350px;' }
-    - line_graph 'rating_chart', @player
+    = line_graph 'rating_chart', @player
 
 .row#player-edit.hide
   .span5

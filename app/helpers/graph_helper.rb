@@ -107,7 +107,9 @@ module GraphHelper
       );
     )
 
-    buffer_script script
+    content_tag :script do
+      "$(document).ready(function(){#{script}});".html_safe
+    end
   end
 
   def spark_line(element_id, y_values)
@@ -118,6 +120,8 @@ module GraphHelper
       min: RatingHistory.minimum(:rating),
       max: RatingHistory.maximum(:rating),
     }
-    buffer_script "new Ico.SparkLine(#{element_id.to_json}, #{y_values.to_json}, #{options.to_json})"
+    content_tag :script do
+      "$(document).ready(function(){new Ico.SparkLine(#{element_id.to_json}, #{y_values.to_json}, #{options.to_json})})".html_safe
+    end
   end
 end

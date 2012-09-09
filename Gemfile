@@ -11,6 +11,8 @@ gem 'thin'
 gem 'haml'
 gem 'haml-rails'
 
+gem 'dalli' # Caching with memcached
+
 group :test, :development do
   gem 'rspec-rails', '~> 2.0'
 end

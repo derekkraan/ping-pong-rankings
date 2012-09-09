@@ -1,2 +1,3 @@
-#rating_history_chart.span11{ :style => 'height: 600px;' }
-  - line_graph 'rating_history_chart', players, { focus_radius: 10, group_by_dates: true }
+- cache ['rating history chart', Game.last] do
+  #rating_history_chart.span11{ :style => 'height: 600px;' }
+  = line_graph 'rating_history_chart', players, { focus_radius: 10, group_by_dates: true }
