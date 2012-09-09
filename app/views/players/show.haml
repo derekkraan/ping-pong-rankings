@@ -3,7 +3,7 @@
   .span9
     %h3 Rating History
     #rating_chart.span9{ :style => 'height: 350px;' }
-    - line_graph 'rating_chart', @player.rating_histories.map(&:rating)
+    - line_graph 'rating_chart', @player
 
 .row
   .span9

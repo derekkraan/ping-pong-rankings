@@ -457,13 +457,21 @@ var Ico = {
           name && ( v += name + ': ' );
           v += this.format_value( value );
         }
+
+        o.node.onclick = function(e) {
+          t.options.node_onclick && t.options.node_onclick(e, t, i);
+        }
         
-        o.node.onmouseout = function() {
+        o.node.onmouseout = function(e) {
+          t.options.node_onmouseout && t.options.node_onmouseout(e, t, i);
+
           t.status_bar && t.status_bar.shape.hide();
           o.attr( attr );
         };
         
-        o.node.onmouseover = function() {
+        o.node.onmouseover = function(e) {
+          t.options.node_onmouseover && t.options.node_onmouseover(e, t, i);
+
           t.status_bar && t.status_bar.shape.attr( { 'text': v } ).show();
           o.attr( t.options.mouseover_attributes );
         };
