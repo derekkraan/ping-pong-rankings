@@ -5,16 +5,19 @@
       %th{ :style => 'text-align: center', :colspan => players.count }
         Opponent
     %tr
-      %th Player
+      %th{ :style => 'text-align: right' }
+        Player
       -players.each do |player|
-        %th= player.name
+        %th{ :style => 'text-align: center' }
+          = player.name
   %tbody
     -players.each do |player|
       %tr
-        %th= player.name
+        %th{ :style => 'text-align: right' }
+          = player.name
         -players.each do |opponent|
           -if player == opponent
-            %td{ :style => 'background-color: #666' }/
+            %td{ :style => 'background-color: #666; text-align: right' }/
           -else
             -possibilities = player.ranking_algorithm.possible_results(player.rating, opponent.rating)
             %td{ :style => 'text-align: center', :title => "#{number_to_human(possibilities[0][0])} / #{number_to_human(possibilities[0][1])}" }

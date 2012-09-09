@@ -41,8 +41,8 @@ module GraphHelper
             _y_values[i][j] = y_values[i][k]
             _display_labels[i][j] = display_labels[i][k]
           else
-            _y_values[i][j] = _y_values[i][j-1]
-            _display_labels[i][j] = _display_labels[i][j-1]
+            _y_values[i][j] = _y_values[i][Math.max(j-1, 0)]
+            _display_labels[i][j] = _display_labels[i][Math.max(j-1, 0)]
           end
         end
       end
