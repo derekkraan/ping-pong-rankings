@@ -32,17 +32,15 @@ module GraphHelper
       _display_labels = []
       _dates = dates.reduce{ |a,b| a + b }.uniq.sort
       (0...y_values.count).each do |i|
-        _dates.each_with_index do |date,j|
-          _y_values[i] ||= []
-          _display_labels[i] ||= []
+        _y_values[i] ||= [*y_values[i][0]] * _dates.count
+        _display_labels[i] = [*display_labels[i][0]] * _dates.count
 
+        _dates.each_with_index do |date,j|
           if dates[i].include? date
             k = dates[i].index date
             _y_values[i][j] = y_values[i][k]
-            _display_labels[i][j] = display_labels[i][k]
           else
-            _y_values[i][j] = _y_values[i][[j-1, 0].max]
-            _display_labels[i][j] = _display_labels[i][[j-1, 0].max]
+            _y_values[i][j] = _y_values[i][j-1]
           end
         end
       end
