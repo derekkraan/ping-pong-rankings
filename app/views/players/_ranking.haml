@@ -1,30 +1,46 @@
-%table.table
+// .ranking
+//   .ranking-header
+//     %span.ranking #
+//     %span.player-name Name
+//     %span.games GP
+//     %span.rating Rating
+//     %span.streak Streak
+//   .rakning-list
+//     .game-row
+//       %span.ranking 1
+//       = link_to 'a', '#', :class => 'player-name'
+//       %span.games  21
+//       %span.rating 1500
+//       %span.streak 3
+
+.ranking
   - players = Player.order('rating desc, name asc')
-  %thead
-    %tr
-      %th #
-      %th Name
-      %th
-      %th GP
-      %th Rating
-      %th Streak
-  %tbody
+  .ranking-header
+    %span.ranking #
+    %span.player-name  Name
+    %span.stat-line &nbsp;
+    %span.games GP
+    %span.rating Score
+    %span.streak &nbsp;
+  .ranking-list
     - last_rating = false
     - rank = 1
     - players.each do |player|
       - if player.games.count > 0
-        %tr
-          %td
+        .game-row
+          %span.ranking
             = rank if player.rating != last_rating
-          %td
-            = link_to player.name, player
-            =# streak_label player.streak
-          %td.spark_line
+          = link_to player.name, player, :class => 'player-name'
+          =# streak_label player.streak
+          %span.spark_line
             %span.spark_line{ :id => "rating_spark_#{player.id}", :style => "width: #{[100,10 * player.games.count].min}px;" }
             - spark_line "rating_spark_#{player.id}", player.rating_histories.map(&:rating)
-          %td= player.games.count
-          %td= player.rating
-          %td=# player.streak
+          %span.games= player.games.count
+          %span.rating= player.rating
+          - if player.streak >= 3 || player.streak <= -3
+            %span.streak
+              %span.streak-count{ :class => player.streak < 0 ? 'losing' : '' }
+                = player.streak
 
           - rank += 1 if player.rating != last_rating
           - last_rating = player.rating

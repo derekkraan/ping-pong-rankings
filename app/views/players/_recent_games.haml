@@ -1,21 +1,47 @@
-- extra_column = Game.newer_than(5.minutes.ago).present?
-%table.table.table-striped.table-bordered.table-condensed
-  %thead
-    %tr
-      %th Winners
-      %th Score
-      %th Losers
-      - if extra_column
-        %th
-  %tbody
-    - games = Game.order('created_at DESC').limit(5)
-    - games.each do |game|
-      %tr{ :class => game.created_at > 5.minutes.ago ? 'success' : '' }
-        %td= game.winners.map(&:name).to_sentence
-        %td= "#{game.winning_score}-#{game.losing_score}"
-        %td= game.losers.map(&:name).to_sentence
-        - if extra_column
-          %td
-            - if game.created_at > 5.minutes.ago
-              = link_to game_path(game), :method => 'delete' do
-                %span.icon-remove
+- last_game = Game.newer_than(5.minutes.ago).present?
+
+// .panda-players
+// .game-row.large-game
+//   .player.first-player
+//     %h2.player-name Peter
+//     %span.player-ranking 1582
+//     %span.label +32
+//   .game-score
+//     %span 21
+//     %span 19
+//   .player.second-player.losser
+//     %h2.player-name Ruben
+//     %span.label -32
+//     %span.player-ranking 1423
+
+// .game-row
+//   .player.first-player 
+//     %span.label winning 
+//     Mathijs &amp; Ruben
+//   .game-score
+//     %span 23
+//     %span 21
+//   .player.second-player
+//     Wouter &amp; Martijn
+
+.panda-players
+- games = Game.order('created_at DESC').limit(5)
+- games.each do |game|
+  .game-row{ :class => game.created_at > 5.minutes.ago ? 'large-game' : '' }
+    .player.first-player
+      %h2.player-name= game.winners.map(&:name).to_sentence
+      - if last_game
+        %span.player-ranking 1582
+        %span.label +32
+    .game-score
+      %span= game.winning_score
+      %span= game.losing_score
+    .player.second-player.losing
+      %h2.player-name= game.losers.map(&:name).to_sentence
+      - if last_game
+        %span.label -32
+        %span.player-ranking 1423
+    - if last_game
+      - if game.created_at > 5.minutes.ago
+        = link_to game_path(game), :method => 'delete' do
+          %span.icon-remove

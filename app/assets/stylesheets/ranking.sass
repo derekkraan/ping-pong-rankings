@@ -2,21 +2,6 @@
 @import "mixin"
 
 
-span.spark_line
-  width: 100px
-  height: 100%
-  border: 1px 0px solid #DDD
-  display: inline-block
-  padding-top: 0
-  padding-bottom: 0
-  margin-top: 0
-  margin-bottom: 0
-
-td.spark_line
-  padding-top: 0
-  padding-bottom: 0
-
-
 .ranking
   .ranking-header
     @include clearfix()
@@ -28,14 +13,40 @@ td.spark_line
   .ranking
     width: 25px
   .player-name
-    width: 150px
+    width: 100px
     font-weight: bold
+  .spark_line,
+  .stat-line
+    width: 50px
+    .spark_line
+      height: 100%
+      border: 1px 0px solid #DDD
+      float: none
   .games
     width: 25px
   .rating
-    width: 75px
+    width: 50px
   .streak
     width: 75px
+    position: relative
+
+  .ranking-list
+    .streak-count
+      position: absolute
+      width: 24px
+      height: 27px
+      margin-top: -8px
+      background: url(/assets/bg-streak.png) no-repeat 100% 0 transparent
+      text-align: center
+      padding: 9px 7px 0 50px
+      font-weight: bold
+      color: $defaultOrange
+
+      &.losing
+        background-position: 100% -37px
+        padding-top: 8px
+        color: #000
+
 
 .panda-players
   width: 460px
@@ -63,10 +74,9 @@ td.spark_line
 
     &.first-player
       text-align: right
-
+    
     .player-name
-      font-size: 1.7em
-      padding: 5px 0 10px
+      font-weight: normal
 
     .player-ranking
       color: #818181
@@ -103,7 +113,7 @@ td.spark_line
     font-size: 0.75em
     line-height: 1em
 
-  .losser
+  .losing
     .label
       @include gradient-vertical(#cf5050, darken(#cf5050, 20%))
 
@@ -121,6 +131,11 @@ td.spark_line
 
   .player
     width: 132px
+
+    .player-name
+      font-size: 1.7em
+      padding: 5px 0 10px
+      font-weight: bold
 
     .label
       padding: 2px 5px 3px
