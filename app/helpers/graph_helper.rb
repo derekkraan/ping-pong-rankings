@@ -42,7 +42,8 @@ module GraphHelper
             while dates[i][k] == dates[i][k+1]
               k += 1
             end
-            _y_values[i][j] = y_values[i][k]
+            # It's k + 1 because y_values has one extra value at the beginning, the default rating for the ratings scheme.
+            _y_values[i][j] = y_values[i][k+1]
           else
             _y_values[i][j] = _y_values[i][j-1]
           end
