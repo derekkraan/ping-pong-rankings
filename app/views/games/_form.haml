@@ -22,16 +22,16 @@
                 = fields_for "game#{i}" do |game|
                   = game.fields_for "team#{j}" do |team|
                     = team.text_field :score, :class => 'span1', :placeholder => 'Score', :tabindex => 5
-                    %button.btn{ :id => "score_#{i}_#{j}_11" } 11
-                    %button.btn{ :id => "score_#{i}_#{j}_21" } 21
+                    %button.btn{ :type => 'button', :id => "score_#{i}_#{j}_11" } 11
+                    %button.btn{ :type => 'button', :id => "score_#{i}_#{j}_21" } 21
                     - score_button_script "score_#{i}_#{j}_11", "game#{i}_team#{j}_score", 11
                     - score_button_script "score_#{i}_#{j}_21", "game#{i}_team#{j}_score", 21
           - if i == 1 && j == 2 && @game.new_record?
             .span2
-              %button.btn{ :id => 'more_games' }
+              %button.btn{ :type => 'button', :id => 'more_games' }
                 %i.icon-plus
                 - buffer_script "$('#more_games').click(function(e) { e.preventDefault(); $('.hide.games_input').first().removeClass('hide')})"
-              %button.btn{ :id => 'fewer_games' }
+              %button.btn{ :type => 'button', :id => 'fewer_games' }
                 %i.icon-minus
                 - buffer_script "$('#fewer_games').click(function(e) { e.preventDefault(); if($('.games_input:not(.hide)').length > 1) $('.games_input:not(.hide)').last().addClass('hide').find('input').val(null)})"
 
