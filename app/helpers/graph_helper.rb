@@ -57,7 +57,7 @@ module GraphHelper
 
       options = {
         dot_radius: 4,
-        curve_amount: 30,
+        curve_amount: 15,
       }.merge options
     end
 

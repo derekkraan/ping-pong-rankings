@@ -41,6 +41,7 @@ class GamesController < ApplicationController
       game.teams << team1 << team2
 
       if game.save
+        game.reload
         winners = game.winners.map { |p| p.twitter.present? ? "@#{p.twitter}" : p.name }
         losers = game.losers.map { |p| p.twitter.present? ? "@#{p.twitter}" : p.name }
         begin
