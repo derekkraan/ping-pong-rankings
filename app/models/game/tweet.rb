@@ -2,13 +2,21 @@ module Game::Tweet
   extend ActiveSupport::Concern
 
   included do
+    after_create :tweet_result
     before_destroy :remove_tweet
+
+    def tweet_contents
+      _winners = winners.map{|p| p.twitter.present? ? "@#{p.twitter}" : p.name }.to_sentence
+      _losers = losers.map{|p| p.twitter.present? ? "@#{p.twitter}" : p.name }.to_sentence
+
+      "#{_winners} beat #{_losers} #{winning_score} - #{losing_score}"
+    end
 
     def tweet_result
       begin
-        tweet = Twitter.update("#{winners.map(&:name).to_sentence} beat #{losers.map(&:name).to_sentence} #{winning_score} - #{losing_score}")
+        tweet = Twitter.update tweet_contents
         self.tweet_id = tweet.id
-        self.save
+        save
         tweet
       rescue
         logger.debug "Twitter post failed for Game id: #{id}"
@@ -16,11 +24,10 @@ module Game::Tweet
     end
 
     def remove_tweet
-      if self.tweet_id
+      if tweet_id
         begin
-          Twitter.status_destroy(self.tweet_id)
-          self.tweet_id = nil
-          self.save
+          Twitter.status_destroy(tweet_id)
+          true
         rescue
           logger.debug "Tweet could not be deleted for Game id: #{id}"
         end

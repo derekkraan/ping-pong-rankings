@@ -2,11 +2,10 @@ class Game < ActiveRecord::Base
   has_many :teams, dependent: :destroy
   has_many :players, through: :teams
   has_many :rating_histories, dependent: :destroy
+  after_create :calculate_player_rankings
 
   include LoadRankingAlgorithm
   include Tweet
-
-  after_save :calculate_player_rankings
 
   def valid?(context=nil)
     # Need to have at least two players

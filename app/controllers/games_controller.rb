@@ -40,12 +40,7 @@ class GamesController < ApplicationController
 
       game.teams << team1 << team2
 
-      if game.save
-        game.tweet_result
-        game
-      else
-        false
-      end
+      game.save ? game : false
     end
 
     if results.all?
