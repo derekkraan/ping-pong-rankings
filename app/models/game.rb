@@ -4,6 +4,7 @@ class Game < ActiveRecord::Base
   has_many :rating_histories, dependent: :destroy
 
   include LoadRankingAlgorithm
+  include Tweet
 
   after_save :calculate_player_rankings
 

@@ -11,11 +11,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120909183431) do
+ActiveRecord::Schema.define(:version => 20120922123445) do
 
   create_table "games", :force => true do |t|
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "tweet_id"
   end
 
   add_index "games", ["created_at"], :name => "index_games_on_created_at"

@@ -41,14 +41,7 @@ class GamesController < ApplicationController
       game.teams << team1 << team2
 
       if game.save
-        game.reload
-        winners = game.winners.map { |p| p.twitter.present? ? "@#{p.twitter}" : p.name }
-        losers = game.losers.map { |p| p.twitter.present? ? "@#{p.twitter}" : p.name }
-        begin
-          Twitter.update("#{winners.to_sentence} beat #{losers.to_sentence} #{game.winning_score} - #{game.losing_score}")
-        rescue
-          logger.debug "Twitter post failed for Game id: #{game.id}"
-        end
+        game.tweet_result
         game
       else
         false
