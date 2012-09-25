@@ -11,16 +11,15 @@
     - games = Game.order('created_at DESC').limit(15)
     - games.each do |game|
       %tr{ :class => game.created_at > 5.minutes.ago ? 'success' : '' }
+        - teams = game.teams
         %td.span2{ :style => 'text-align: right' }
-          - team = game.teams.first
-          = team.players.map(&:name).to_sentence
-          = results_badge(team)
+          = teams.first.players.map(&:name).to_sentence
+          = results_badge(teams.first)
         %td.span1{ :style => 'text-align: center' }
-          = "#{game.teams.first.score}-#{game.teams.second.score}"
+          = "#{teams.first.score}-#{teams.second.score}"
         %td.span2
-          - team = game.teams.second
-          = results_badge(team)
-          = team.players.map(&:name).to_sentence
+          = results_badge(teams.second)
+          = teams.second.players.map(&:name).to_sentence
         - if extra_column
           %td
             - if game.created_at > 5.minutes.ago
