@@ -1,7 +1,7 @@
 $(document).ready(function() {
     all_tabs = '#nav-ranking, #nav-possibility-matrix, #nav-history-graph, #nav-recent-games, #nav-player-edit';
-    all_content = '#ranking, #possibility-matrix, #history-graph, #player-edit, #recent-games, #new-game, #rankings';
-    all_nav = '#nav-rankings, #nav-newgame';
+    all_content = '#ranking, #possibility-matrix, #history-graph, #player-edit, #recent-games, #new-game, #rankings, #new-player';
+    all_nav = '#nav-rankings, #nav-newgame, #nav-newplayer';
 
     $(all_tabs).removeClass('hide');
 
@@ -58,6 +58,14 @@ $(document).ready(function() {
         $('#nav-newgame').addClass('active');
         $(all_content).addClass('hide');
         $('#new-game').removeClass('hide');
+    });
+
+    $('#nav-newplayer a').click(function(e) {
+        e.preventDefault();
+        $(all_nav).removeClass('active');
+        $('#nav-newplayer').addClass('active');
+        $(all_content).addClass('hide');
+        $('#new-player').removeClass('hide');
     });
 
 });

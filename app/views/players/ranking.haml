@@ -30,7 +30,11 @@
       = render :partial => 'rating_history', :locals => { :players => players }
 
 #new-game.hide
-  %h2 Enter game
+  %h2 Enter Game
   = render 'games/form'
+
+#new-player.hide
+  %h2 Add Player
+  = render 'players/form'
 
 -buffer_script "$('#nav-rankings a').click();"
