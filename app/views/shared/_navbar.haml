@@ -3,9 +3,9 @@
     .container
       %a.brand{:href => "/"} PingPongGuru
       %ul.nav
-        %li
+        %li#nav-rankings
           = link_to 'Rankings', '/ranking'
-        %li
+        %li#nav-newgame
           = link_to 'Enter Game', new_game_path
         %li
           = link_to 'Add Player', new_player_path

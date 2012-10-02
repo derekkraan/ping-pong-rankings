@@ -1,6 +1,7 @@
 $(document).ready(function() {
     all_tabs = '#nav-ranking, #nav-possibility-matrix, #nav-history-graph, #nav-recent-games, #nav-player-edit';
-    all_content = '#ranking, #possibility-matrix, #history-graph, #player-edit, #recent-games';
+    all_content = '#ranking, #possibility-matrix, #history-graph, #player-edit, #recent-games, #new-game, #rankings';
+    all_nav = '#nav-rankings, #nav-newgame';
 
     $(all_tabs).removeClass('hide');
 
@@ -9,7 +10,7 @@ $(document).ready(function() {
         $(all_tabs).removeClass('active');
         $('#nav-ranking').addClass('active');
         $(all_content).addClass('hide');
-        $('#ranking, #recent-games').removeClass('hide');
+        $('#rankings, #ranking, #recent-games').removeClass('hide');
     })
 
     $('#nav-possibility-matrix a').click(function(e) {
@@ -17,7 +18,7 @@ $(document).ready(function() {
         $(all_tabs).removeClass('active');
         $('#nav-possibility-matrix').addClass('active');
         $(all_content).addClass('hide');
-        $('#possibility-matrix').removeClass('hide');
+        $('#rankings, #possibility-matrix').removeClass('hide');
     })
 
     $('#nav-history-graph a').click(function(e) {
@@ -25,7 +26,7 @@ $(document).ready(function() {
         $(all_tabs).removeClass('active');
         $('#nav-history-graph').addClass('active');
         $(all_content).addClass('hide');
-        $('#history-graph').removeClass('hide');
+        $('#rankings, #history-graph').removeClass('hide');
     })
 
     $('#nav-recent-games a').click(function(e) {
@@ -33,7 +34,7 @@ $(document).ready(function() {
         $(all_tabs).removeClass('active');
         $('#nav-recent-games').addClass('active');
         $(all_content).addClass('hide');
-        $('#recent-games').removeClass('hide');
+        $('#rankings, #recent-games').removeClass('hide');
     })
 
     $('#nav-player-edit a').click(function(e) {
@@ -43,5 +44,20 @@ $(document).ready(function() {
         $(all_content + ', #recent-games').addClass('hide');
         $('#player-edit').removeClass('hide');
     })
+
+    $('#nav-rankings a').click(function(e) {
+        e.preventDefault();
+        $('#nav-ranking a').click();
+        $(all_nav).removeClass('active');
+        $('#nav-rankings').addClass('active');
+    });
+
+    $('#nav-newgame a').click(function(e) {
+        e.preventDefault();
+        $(all_nav).removeClass('active');
+        $('#nav-newgame').addClass('active');
+        $(all_content).addClass('hide');
+        $('#new-game').removeClass('hide');
+    });
 
 });

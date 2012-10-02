@@ -1,3 +1,4 @@
+- @game ||= Game.new
 = form_for @game do |games|
   = games.hidden_field :id
   - player_options = [['-', nil]] + Player.order('name ASC').map do |player|

@@ -39,6 +39,10 @@ class Player < ActiveRecord::Base
     self.rating = ranking_algorithm::DEFAULT_PLAYER_RATING
   end
 
+  def rating
+    read_attribute(:rating) || ranking_algorithm::DEFAULT_PLAYER_RATING
+  end
+
   def rating_histories
     initial = RatingHistory.new
     initial.player = self
