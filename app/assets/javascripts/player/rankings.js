@@ -1,4 +1,5 @@
-$(document).ready(function() {
+var PingPong = PingPong || {};
+PingPong.initRankings = function() {
     all_tabs = '#nav-ranking, #nav-possibility-matrix, #nav-history-graph, #nav-recent-games, #nav-player-edit';
     all_content = '#ranking, #possibility-matrix, #history-graph, #player-edit, #recent-games, #new-game, #rankings, #new-player';
     all_nav = '#nav-rankings, #nav-newgame, #nav-newplayer';
@@ -68,4 +69,4 @@ $(document).ready(function() {
         $('#new-player').removeClass('hide');
     });
 
-});
+};
