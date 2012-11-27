@@ -1,41 +1,49 @@
-- content_for :title, 'Player Rankings'
 - players = Player.order('rating desc, name asc')
-#rankings
-  %ul.nav.nav-tabs
-    %li#nav-ranking
-      = link_to '#ranking' do
+// Rankings
+#rankings.content.nav-view
+  // Ranking tabs
+  %ul.tabs
+    %li#tab-ranking
+      = link_to '#ranking', {'data-content' => 'ranking-view'} do
         Ranking List
-    %li#nav-possibility-matrix
-      = link_to '#possibility-matrix' do
+    %li#tab-possibility-matrix
+      = link_to '#possibility-matrix', {'data-content' => 'possibility-matrix'} do
         Point Potentials
-    %li#nav-history-graph.hide
-      = link_to '#history-graph' do
+    %li#tab-history-graph
+      = link_to '#history-graph', {'data-content' => 'history-graph'} do
         Rating History Graph
-  .row
-    .span6
-      .row#ranking
-        .span6
-          = render :partial => 'ranking', :locals => { :players => players }
 
-    .span5.pull-right#recent-games
-      %h3 Recent Games
+  // Ranking view
+  #ranking-view.content.tab-view
+    // Ranking list
+    #ranking-list.content.medium
+      %h1 Player Rankings
+      = render :partial => 'ranking', :locals => { :players => players }
+
+    // Recent games
+    #recent-games.content.medium
       = render 'recent_games'
 
-    .span11#possibility-matrix
-      %h3 Point Potential Matrix
-      = render :partial => 'possibility_matrix', :locals => { :players => players }
+  // Matrix
+  #possibility-matrix.content.tab-view.hide
+    %h1 Point Potential Matrix
+    = render :partial => 'possibility_matrix', :locals => { :players => players }
 
-    .span11#history-graph.hide
-      %h3 Rating History
-      = render :partial => 'rating_history', :locals => { :players => players }
+  // History
+  #history-graph.content.tab-view.hide
+    %h1 Rating History
+    = render :partial => 'rating_history', :locals => { :players => players }
 
-#new-game.hide
-  %h2 Enter Game
+// New game
+#new-game.content.nav-view.hide
+  %h1 Enter Game
   = render 'games/form'
 
-#new-player.hide
-  %h2 Add Player
+// New Player
+#new-player.content.nav-view.hide
+  %h1 Add Player
   = render 'players/form'
 
 -buffer_script "PingPong.initRankings();"
+-buffer_script "$('#tab-ranking a').click();"
 -buffer_script "$('#nav-rankings a').click();"

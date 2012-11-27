@@ -33,6 +33,9 @@ end
 
 gem 'jquery-rails'
 
+gem 'bourbon'       # Bourbon - lightweight mixin library
+gem 'neat'          # Neat - grid framework
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
@@ -50,4 +53,4 @@ gem 'jquery-rails'
 
 gem 'twitter'
 
-gem 'therubyracer', require: 'v8'
+gem 'therubyracer', :require => 'v8'

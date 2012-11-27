@@ -3,13 +3,13 @@
   %head
     %title PingPongGuru
     %link{:rel => 'shortcut icon', :href => '/favicon.ico', :type => 'image/x-icon'}
-    %link{:href => "http://twitter.github.com/bootstrap/assets/css/bootstrap.css", :rel => "stylesheet"}
+    /%link{:href => "http://twitter.github.com/bootstrap/assets/css/bootstrap.css", :rel => "stylesheet"}
     = stylesheet_link_tag 'application', :media => 'all'
     = javascript_include_tag 'application'
     = csrf_meta_tags
   %body
+    = render 'shared/navbar'
     .container
-      = render 'shared/navbar'
 
       .hero-unit
         %iframe{:height => 185, :width => 280, :frameborder => "0", :src => "http://www.youtube.com/embed/bqOZW6ckL0A", :class => "pull-right"}

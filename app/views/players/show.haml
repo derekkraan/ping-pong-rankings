@@ -1,54 +1,52 @@
 - content_for :title, @player.name
-%ul.nav.nav-tabs
-  %li#nav-recent-games
-    = link_to '#recent-games' do
+%ul.tabs
+  %li#tab-recent-games
+    = link_to '#recent-games', {'data-content' => 'recent-games'} do
       Games Played
-  %li#nav-history-graph
-    = link_to '#history-graph' do
+  %li#tab-history-graph
+    = link_to '#history-graph', {'data-content' => 'history-graph'}  do
       History Graph
-  %li#nav-player-edit
-    = link_to('Edit '.html_safe << content_tag(:i, '', :class => 'icon-pencil'), edit_player_path(@player))
+  %li#tab-player-edit
+    = link_to('Edit '.html_safe << content_tag(:i, '', :class => 'icon-pencil'), edit_player_path(@player), {'data-content' => 'player-edit'} )
 
-.row#recent-games
-  .span9
-    %h3 Games Played
-    %table.table.table-striped
-      %tbody
-        - @player.games.order('created_at desc').where(:created_at => 30.days.ago..Time.now).each do |game|
-          %tr
-            - if game.winners.include? @player
-              %td.span1
-                %span.badge.badge-success.pull-right WON
-              %td.span1
-                = "#{game.winning_score}-#{game.losing_score}"
-              %td
-                - if game.winners.count > 1
-                  - teammate = (game.winners - [@player]).first
-                  = "with #{link_to teammate.name, teammate}".html_safe
-                = "against"
-                = "#{game.losers.map{|player| link_to(player.name, player)}.to_sentence}".html_safe
-                = "on #{game.created_at.strftime('%d %b %y')}"
-            - else
-              %td.span1
-                %span.badge.badge.pull-right LOST
-              %td.span1
-                = "#{game.losing_score}-#{game.winning_score}"
-              %td
-                - if game.losers.count > 1
-                  - teammate = (game.losers - [@player]).first
-                  = "with #{link_to teammate.name, teammate}".html_safe
-                = "against"
-                = "#{game.winners.map{|player| link_to(player.name, player)}.to_sentence}".html_safe
-                = "on #{game.created_at.strftime('%d %b %y')}"
+#recent-games.content.tab-view
+  %h1 Games Played
+  %table.table.table-striped
+    %tbody
+      - @player.games.order('created_at desc').where(:created_at => 30.days.ago..Time.now).each do |game|
+        %tr
+          - if game.winners.include? @player
+            %td.span1
+              %span.badge.badge-success.pull-right WON
+            %td.span1
+              = "#{game.winning_score}-#{game.losing_score}"
+            %td
+              - if game.winners.count > 1
+                - teammate = (game.winners - [@player]).first
+                = "with #{link_to teammate.name, teammate}".html_safe
+              = "against"
+              = "#{game.losers.map{|player| link_to(player.name, player)}.to_sentence}".html_safe
+              = "on #{game.created_at.strftime('%d %b %y')}"
+          - else
+            %td.span1
+              %span.badge.badge.pull-right LOST
+            %td.span1
+              = "#{game.losing_score}-#{game.winning_score}"
+            %td
+              - if game.losers.count > 1
+                - teammate = (game.losers - [@player]).first
+                = "with #{link_to teammate.name, teammate}".html_safe
+              = "against"
+              = "#{game.winners.map{|player| link_to(player.name, player)}.to_sentence}".html_safe
+              = "on #{game.created_at.strftime('%d %b %y')}"
 
-.row#history-graph.hide
-  .span9
-    %h3 Rating History
-    #rating_chart.span9{ :style => 'height: 350px;' }
-    = line_graph 'rating_chart', @player
+#history-graph.content.tab-view.hide
+  %h1 Rating History
+  #rating_chart.span9{ :style => 'height: 350px;' }
+  = line_graph 'rating_chart', @player
 
-.row#player-edit.hide
-  .span5
-    = render 'form'
+#player-edit.content.tab-view.hide
+  = render 'form'
 
--buffer_script "$('#nav-recent-games a').click();"
+-buffer_script "PingPong.initRankings();"
+-buffer_script "$('#tab-recent-games a').click();"

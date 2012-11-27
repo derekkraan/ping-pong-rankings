@@ -1,0 +1,39 @@
+@import 'bourbon'
+@import 'neat'
+@import 'mixin'
+@import url(http://fonts.googleapis.com/css?family=Numans)
+
+body
+  font-family: 'Numans', sans-serif
+  font-size: 1em
+  line-height: 1.618em
+  color: #525252
+  background: #f5f5f5
+
+.container
+  +outer-container
+  padding: 0 20px
+
+.content
+  +fill-parent
+
+  &.medium
+    +span-columns(6)
+    +nth-omega(2n)
+    +tablet
+      +fill-parent
+
+.footer
+  padding-bottom: 50px
+
+
+
+
+
+
+
+
+
+
+.hide
+  display: none

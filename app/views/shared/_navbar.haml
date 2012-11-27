@@ -1,11 +1,10 @@
-.navbar.navbar-inverse.navbar-fixed-top
-  .navbar-inner
-    .container
-      %a.brand{:href => "/"} PingPongGuru
-      %ul.nav
-        %li#nav-rankings
-          = link_to 'Rankings', '/ranking'
-        %li#nav-newgame
-          = link_to 'Enter Game', new_game_path
-        %li#nav-newplayer
-          = link_to 'Add Player', new_player_path
+.navbar
+  .container
+    %a.brand{:href => "/"} PingPongPanda
+    %ul.nav
+      %li#nav-rankings
+        = link_to 'Ranking', '/ranking', {'data-content' => 'rankings'}
+      %li#nav-newgame
+        = link_to 'Enter Game', new_game_path, {'data-content' => 'new-game'}
+      %li#nav-newplayer
+        = link_to 'Add Player', new_player_path, {'data-content' => 'new-player'}

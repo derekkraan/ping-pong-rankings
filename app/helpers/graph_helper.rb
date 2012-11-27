@@ -116,7 +116,7 @@ module GraphHelper
   def spark_line(element_id, y_values)
     options = {
       highlight: {
-        color: '#B00',
+        color: '#000',
       },
       min: RatingHistory.minimum(:rating),
       max: RatingHistory.maximum(:rating),

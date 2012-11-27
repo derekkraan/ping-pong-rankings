@@ -1,0 +1,65 @@
+@import 'bourbon'
+@import 'neat'
+@import 'mixin'
+
+.navbar
+  min-height: 45px
+  background: #0082c9
+  border-bottom: 3px solid #4aa9dd
+
+  .brand
+    float: left
+    padding: 8px 10px 6px 0
+    color: #FFF
+    text-decoration: none
+    font-size: 1.7em
+    font-weight: normal
+    +span-columns(4)
+
+  .nav
+    +span-columns(5)
+    +shift(3)
+    float: right
+    overflow: hidden
+    +tablet
+      +shift(0)
+      float: none
+      width: 100%
+
+    li 
+      float: left
+
+      a
+        padding: 3px 10px
+        margin: 5px 6px 5px 0
+        +border-radius(4px)
+        color: #FFF
+        text-decoration: none
+        font-size: 0.9em
+        display: block
+
+        &:hover,
+        &.active
+          +box-shadow(inset 1px 1px 2px 1px rgba(0, 0, 0, 0.1))
+          background: rgba(0, 0, 0, 0.1)
+
+.tabs
+  padding: 20px 0 0
+  overflow: hidden
+
+  li
+    float: left
+  a
+    padding: 3px 10px
+    margin: 5px 10px 5px 0
+    background: rgba(0, 0, 0, 0.05)
+    +border-radius(4px)
+    color: #373737
+    text-decoration: none
+    font-size: 0.9em
+    display: block
+
+    &:hover,
+    &.active
+      background: #373737
+      color: #FFF

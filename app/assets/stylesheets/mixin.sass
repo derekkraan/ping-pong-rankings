@@ -1,0 +1,14 @@
+@mixin mobile
+  @include media(max-width 481px)
+    @content
+
+@mixin tablet
+  @include media(max-width 761px)
+    @content
+
+@mixin text-overflow
+  -webkit-text-overflow: ellipsis
+  -moz-text-overflow: ellipsis
+  -o-text-overflow: ellipsis
+  -ms-text-overflow: ellipsis
+  text-overflow: ellipsis

@@ -1,0 +1,131 @@
+@import 'bourbon'
+@import 'neat'
+@import 'mixin'
+
+#ranking-list
+  .header,
+  .rank
+    +fill-parent
+    +row(block)
+
+    .player
+      +span-columns(4)
+    .history
+      +span-columns(3)
+    .games-played
+      +span-columns(1)
+    .score
+      +span-columns(2)
+    .streak
+      +span-columns(2)
+
+  .header
+    .player
+      span
+        padding-left: 10px
+
+  .rank
+    position: relative
+    padding: 5px 0
+    margin-bottom: 5px
+    border: 1px solid #CDCDCD
+    +border-radius(4px)
+    +linear-gradient(#FFF, #EFEFEF)
+
+    .player
+      position: relative
+      padding-left: 60px
+
+      .img
+        position: absolute
+        left: 13px
+        top: 0
+        width: 32px
+        height: 32px
+        background: no-repeat center transparent
+        border: 2px solid #FFF
+        +border-radius(50%)
+        +box-shadow(0 0 2px 1px rgba(0, 0, 0, 0.1))
+        overflow: hidden
+
+      a
+        float: left
+        width: 100%
+        padding: 5px 0 3px 0
+        text-decoration: none
+        color: #525252
+        overflow: hidden
+        +text-overflow()
+        white-space: nowrap
+
+        &:hover
+          color: #888
+
+    .history
+      overflow: hidden
+
+      .spark_line
+        +fill-parent
+        height: 24px
+        padding-top: 2px
+        display: inline-block
+        color: #1ea5ed
+
+    .games-played,
+    .score,
+    .streak
+      span
+        padding: 5px 0 3px
+        display: block
+
+    &:nth-child(-n+4)
+      .player
+        .img
+          left: 10px
+          width: 40px
+          height: 40px
+        a
+          padding: 9px 0 7px 0
+          font-size: 1.1em
+      .history
+        .spark_line
+          height: 32px
+          padding-top: 6px
+      .games-played,
+      .score,
+      .streak
+        span
+          padding: 9px 0 7px 0
+    
+  .rank
+    &:before
+      position: absolute
+      left: -25px
+      top: 12px
+      width: 22px
+      content: attr(data-rank)
+      display: block
+      text-align: right
+      color: #b1aeae
+      z-index: -1
+
+  .rank-1,
+  .rank-2,
+  .rank-3
+    &:before
+      top: 0
+      left: -19px
+      width: 18px
+      height: 49px
+
+  .rank-1
+    &:before
+      content: url(/assets/first-place.png)
+
+  .rank-2
+    &:before
+      content: url(/assets/second-place.png)
+
+  .rank-3
+    &:before
+      content: url(/assets/third-place.png)
