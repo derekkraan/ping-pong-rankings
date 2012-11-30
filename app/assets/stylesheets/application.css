@@ -13,7 +13,9 @@
  *= require style
  *= require nav
  *= require layout
+ *= require forms
  *= require ranking-list
  *= require recent-games
+ *= require new-game
 
  */

@@ -1,0 +1,126 @@
+
+@import 'bourbon'
+@import 'neat'
+@import 'mixin'
+
+#new-game
+  position: absolute
+  top: 0
+  left: 0
+  width: 100%
+  background: #4AA9DD
+  color: #FFF
+  margin-top: -500px
+  z-index: 10
+
+  .overlay
+    +pad
+    +outer-container
+    +row(block)
+
+    h2
+      font-size: 2.2em
+      text-align: center
+      line-height: normal
+      padding-bottom: 20px
+
+    .player
+      position: relative
+      color: #FFF
+      font-size: 0.8em
+      text-decoration: none
+      display: block
+
+      span
+        padding: 5px 10px 0 10px
+        +text-overflow
+        display: block
+      
+      .img
+        float: left
+        width: 32px
+        height: 32px
+        background: no-repeat center transparent
+        border: 2px solid #FFF
+        +border-radius(50%)
+        +box-shadow(0 0 2px 1px rgba(0, 0, 0, 0.1))
+        overflow: hidden
+
+
+    .player-list,
+    .selected
+      +span-columns(4)
+
+      .team
+        +span-columns(6)
+        +nth-omega(2n)
+
+    // Player list
+    .player-list
+      padding: 60px 0 10px
+      
+      li
+        +span-columns(5)
+        +nth-omega(2n)
+        margin-bottom: 5px
+      
+      &:last-child
+        li:nth-child(2n+1)
+          +shift(2)
+
+    // Selected players
+    .selected
+      .selected-players
+        height: 240px
+
+      li
+        +fill-parent
+        padding-bottom: 15px
+
+      .player
+        text-align: center
+
+        .img
+          float: none
+          position: relative
+          width: 75px
+          height: 75px
+          margin: 0 auto
+
+    // Enter Score
+    .enter-score
+      float: left
+      +fill-parent
+      padding: 10px 0
+
+      .score
+        +span-columns(6)
+        +shift(3)
+        padding: 5px
+        border: none
+        +border-radius(4px)
+        font-size: 2em
+        text-align: center
+        outline: none
+
+      .default-score
+        float: left
+        +span-columns(3)
+        a
+          padding: 1px 5px 0
+          color: #FFF
+          text-decoration: none
+          text-align: center
+          display: block
+
+          &:hover
+            +border-radius(4px)
+            background: #0082C9
+
+    .buttons
+      float: left
+      +fill-parent
+      padding: 10px 0
+      text-align: center
+
+

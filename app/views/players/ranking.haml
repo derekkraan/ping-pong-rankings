@@ -35,8 +35,7 @@
     = render :partial => 'rating_history', :locals => { :players => players }
 
 // New game
-#new-game.content.nav-view.hide
-  %h1 Enter Game
+#new-game.content.hide
   = render 'games/form'
 
 // New Player
@@ -47,3 +46,16 @@
 -buffer_script "PingPong.initRankings();"
 -buffer_script "$('#tab-ranking a').click();"
 -buffer_script "$('#nav-rankings a').click();"
+
+:javascript
+   // Matrix hover
+  $("table.matrix").delegate('td','mouseover mouseleave', function(e) {
+      if (e.type == 'mouseover') {
+        $(this).parent().addClass("hover");
+        $("colgroup").eq($(this).index()).addClass("hover");
+      }
+      else {
+        $(this).parent().removeClass("hover");
+        $("colgroup").eq($(this).index()).removeClass("hover");
+      }
+  });

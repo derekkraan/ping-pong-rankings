@@ -23,10 +23,38 @@ body
     +tablet
       +fill-parent
 
+
+
+table.matrix
+  table-layout: fixed
+  width: 100%
+  display: table
+
+  .player
+    span
+      +text-overflow()
+      display: block
+      cursor: help
+
+  .empty
+    background: #666
+
+  .score
+    text-align: center
+
+  .hover, tr:hover
+    background-color: #dedede
+
+  td:hover
+    background-color: #000
+    color: #FFF
+
 .footer
   padding-bottom: 50px
 
-
+svg
+  height: 100% !important
+  width: 100% !important
 
 
 

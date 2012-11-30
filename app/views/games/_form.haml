@@ -1,42 +1,173 @@
 - @game ||= Game.new
-= form_for @game do |games|
+= form_for @game, :html => {:class => 'default-form'} do |games|
   = games.hidden_field :id
   - player_options = [['-', nil]] + Player.order('name ASC').map do |player|
     - [player.name, player.id]
 
-  .row
+  .overlay
+    %ul.player-list
+      - Player.new do |player|
+        - Player.order('name ASC').map do |player|
+          %li
+            %a.player{:href => '#', :data => {'player-id' => player.id, :team => '1'} }
+              %span.img{:style => 'background-image:url(https://twimg0-a.akamaihd.net/profile_images/717463702/588967521_5__2Nb_bigger.jpeg)'}
+              %span= player.name
+
+    .selected
+      #team-1.team
+        %h2 Team 1
+        %ul.selected-players
+      #team-2.team
+        %h2 Team 2
+        %ul.selected-players
+
+      .enter-score
+        .game{:data => {:game => '1'}}
+          .team
+            %input#game1_team1_score.score{:name => 'game1[team1][score]', :type => 'number'}
+            .default-score
+              %a{:href => '#'} 11
+              %a{:href => '#'} 21
+
+          .team
+            %input#game1_team2_score.score{:name => 'game1[team2][score]',:type => 'number'}
+            .default-score
+              %a{:href => '#'} 11
+              %a{:href => '#'} 21
+
+      .buttons
+        %input.btn.add-game{:type => 'submit', :value => '+ Add game'}
+        %input.btn{:type => 'submit', :value => 'Submit score(s)'}
+
+    %ul.player-list
+      - Player.new do |player|
+        - Player.order('name ASC').map do |player|
+          %li
+            %a.player{:href => '#', :data => {'player-id' => player.id, :team => '2'} }
+              %span.img{:style => 'background-image:url(https://twimg0-a.akamaihd.net/profile_images/717463702/588967521_5__2Nb_bigger.jpeg)'}
+              %span= player.name
+
+
+  .hide
     - (1..2).each do |i|
-      .span4
-        %h3= "Team #{i}:"
-        - (1..2).each do |j|
-          = fields_for "team#{i}_player#{j}", Player.new do |player|
-            = select "team#{i}_player#{j}", 'id', player_options, {}, :tabindex => (i-1)*2+(j)
+      - (1..2).each do |j|
+        = fields_for "team#{i}_player#{j}", Player.new do |player|
+          = select "team#{i}_player#{j}", 'id', player_options, {}, :tabindex => (i-1)*2+(j)
 
-  - num_games = @game.new_record? ? 7 : 1
-  - (1..num_games).each do |i|
-    %div{ :class => (i > 1 ? 'hide' : '') << ' games_input', :id => "game_#{i}" }
-      .row
-        - (1..2).each do |j|
-          .span4
-            .row
-              .span4.input-append
-                = fields_for "game#{i}" do |game|
-                  = game.fields_for "team#{j}" do |team|
-                    = team.text_field :score, :class => 'span1', :placeholder => 'Score', :tabindex => 5
-                    %button.btn{ :type => 'button', :id => "score_#{i}_#{j}_11" } 11
-                    %button.btn{ :type => 'button', :id => "score_#{i}_#{j}_21" } 21
-                    - score_button_script "score_#{i}_#{j}_11", "game#{i}_team#{j}_score", 11
-                    - score_button_script "score_#{i}_#{j}_21", "game#{i}_team#{j}_score", 21
-          - if i == 1 && j == 2 && @game.new_record?
-            .span2
-              %button.btn{ :type => 'button', :id => 'more_games' }
-                %i.icon-plus
-                - buffer_script "$('#more_games').click(function(e) { e.preventDefault(); $('.hide.games_input').first().removeClass('hide')})"
-              %button.btn{ :type => 'button', :id => 'fewer_games' }
-                %i.icon-minus
-                - buffer_script "$('#fewer_games').click(function(e) { e.preventDefault(); if($('.games_input:not(.hide)').length > 1) $('.games_input:not(.hide)').last().addClass('hide').find('input').val(null)})"
+/  - num_games = @game.new_record? ? 7 : 1
+/  - (1..num_games).each do |i|
+/    %div{ :class => (i > 1 ? 'hide' : '') << ' games_input', :id => "game_#{i}" }
+/      .row
+/        - (1..2).each do |j|
+/          .span4
+/            .row
+/              .span4.input-append
+/                = fields_for "game#{i}" do |game|
+/                  = game.fields_for "team#{j}" do |team|
+/                    = team.text_field :score, :class => 'span1', :placeholder => 'Score', :tabindex => 5
+/                    %button.btn{ :type => 'button', :id => "score_#{i}_#{j}_11" } 11
+/                    %button.btn{ :type => 'button', :id => "score_#{i}_#{j}_21" } 21
+/                    - score_button_script "score_#{i}_#{j}_11", "game#{i}_team#{j}_score", 11
+/                    - score_button_script "score_#{i}_#{j}_21", "game#{i}_team#{j}_score", 21
+/          - if i == 1 && j == 2 && @game.new_record?
+/            .span2
+/              %button.btn{ :type => 'button', :id => 'more_games' }
+/                %i.icon-plus
+/                - buffer_script "$('#more_games').click(function(e) { e.preventDefault(); $('.hide.games_input').first().removeClass('hide')})"
+/              %button.btn{ :type => 'button', :id => 'fewer_games' }
+/                %i.icon-minus
+/                - buffer_script "$('#fewer_games').click(function(e) { e.preventDefault(); if($('.games_input:not(.hide)').length > 1) $('.games_input:not(.hide)').last().addClass('hide').find('input').val(null)})"
 
-  .row
-    .span4.offset4
-      = games.submit :class => 'btn btn-primary'
-      - buffer_script "$('#new_game').submit(function(e) {$('#new_game').find('.btn-primary').addClass('disabled').attr('disabled', true)});"
+/  .row
+/    .span4.offset4
+/      = games.submit :class => 'btn btn-primary'
+/      - buffer_script "$('#new_game').submit(function(e) {$('#new_game').find('.btn-primary').addClass('disabled').attr('disabled', true)});"
+
+:javascript
+  // Select players
+  $('.player-list a').click(function(e){
+    e.preventDefault();
+    var elm = $(this),
+        playerId = elm.attr('data-player-id'),
+        playerName = elm.text(),
+        teamId = elm.attr('data-team'),
+        teamContainer = 'team-' + teamId
+        playerPosition = 1,
+        data = '';
+
+    // Set player position
+    if($('#'+ teamContainer + ' li').length >= 1 && $('#'+ teamContainer + ' .player:first').attr('data-position') == 1){
+      playerPosition = 2
+    } else {
+      playerPosition = 1
+    }
+
+    // Change last player
+    if($('#'+ teamContainer + ' li').length == 2){
+      $('#'+ teamContainer + ' li:eq(1)').remove()
+    }
+
+    // Set hidden value
+    $('#team' + teamId + '_player' + playerPosition + '_id option').filter(function() {
+        return $(this).attr('value') == playerId; 
+    }).prop('selected', true);
+
+    // Set Selected player
+    data = '<li>'
+     + '<a href="#" class="player" data-position="' + playerPosition + '">'
+        + '<span class="img" style="background-image:url(https://twimg0-a.akamaihd.net/profile_images/717463702/588967521_5__2Nb_bigger.jpeg)"></span>'
+        + '<span>' + playerName + '</span>'
+     + '</a>'
+     + '</li>';
+
+    $('#' + teamContainer).find('.selected-players').append(data)
+
+    // Console
+    console.log($('#' + teamContainer + ' li').length)
+
+    // Remove selected player
+    $('.selected-players .player').on('click', function(e){
+      e.preventDefault();
+      $(this).parent('li').remove();
+      $('#team' + teamId + '_player' + $(this).attr('data-position') + '_id option:selected').removeAttr('selected');
+    })
+  })
+  
+  // Set Default Score
+  $('.default-score a').bind('click', function(e){
+    e.preventDefault();
+    $(this).closest('.team').find('input').val($(this).text())
+  })
+
+
+  // Add new game record
+  $('.add-game').click(function(e){
+    e.preventDefault();
+    var gameId = $('.enter-score .game').length + 1,
+    data = '<div class="game" data-game="' + gameId + '">'
+            + '<div class="team">'
+              + '<input id="game' + gameId + '_team1_score" name="game' + gameId + '[team1][score]" class="score" type="number">'
+              + '<div class="default-score">'
+                +'<a href="#">11</a>'
+                +'<a href="#">21</a>'
+              + '</div>'
+            +'</div>'
+            + '<div class="team">'
+              + '<input id="game' + gameId + '_team2_score" name="game' + gameId + '[team2][score]" class="score" type="number">'
+              + '<div class="default-score">'
+                +'<a href="#">11</a>'
+                +'<a href="#">21</a>'
+              + '</div>'
+            +'</div>'
+          +'</div>'
+    if(gameId <= 7){
+      $('.enter-score').append(data);
+    } else {
+      $(this).addClass('disabled');
+    }
+    // Set Default Score
+    $('.default-score a').bind('click', function(e){
+      e.preventDefault();
+      $(this).closest('.team').find('input').val($(this).text())
+    })
+  })

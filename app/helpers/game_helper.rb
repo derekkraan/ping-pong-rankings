@@ -11,7 +11,7 @@ module GameHelper
   def results_badge(team)
     if team.winners
       content_tag :span, "W", class: 'winning', title: 'winning'
-    # else
+     else
     #  content_tag :span, "L", class: 'badge badge-important'
     end
   end

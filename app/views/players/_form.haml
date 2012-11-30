@@ -1,13 +1,16 @@
 - @player ||= Player.new
-= form_for @player do |player|
+= form_for @player, :html => {:class => 'default-form'} do |player|
   = player.hidden_field :id
   %h1 Enter your details here
-  %label Name:
-  = player.text_field :name, :placeholder => 'John Smith'
-  %label Twitter handle:
-  .input-prepend
-    %span.add-on @
-    = player.text_field :twitter, :placeholder => 'johnsmith'
-  .row
-    .span5
-      = player.submit :class => 'btn btn-primary'
+
+  .input
+    %label Name:
+    = player.text_field :name, :placeholder => 'John Smith', :class => 'string'
+
+  .input
+    %label Twitter handle:
+    %span.icon @
+    = player.text_field :twitter, :placeholder => 'johnsmith', :class => 'string icon'
+
+  .buttons
+    = player.submit :class => 'btn'

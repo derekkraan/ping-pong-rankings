@@ -1,25 +1,27 @@
-%table.table.table-bordered.table-striped
+%table.matrix
+  %colgroup
+  -players.each do |player|
+    %colgroup
   %thead
     %tr
-      %th/
-      %th{ :style => 'text-align: center', :colspan => players.count }
+      %th{ :colspan => players.count + 1 }
         Opponent
     %tr
-      %th{ :style => 'text-align: right' }
+      %th
         Player
       -players.each do |player|
-        %th{ :style => 'text-align: center' }
-          = player.name
+        %th.player
+          %span{:title => player.name}= player.name
   %tbody
     -players.each do |player|
       %tr
-        %th{ :style => 'text-align: right' }
-          = player.name
+        %th.player
+          %span{:title => player.name}= player.name
         -players.each do |opponent|
           -if player == opponent
-            %td{ :style => 'background-color: #666; text-align: right' }/
+            %td.empty/
           -else
             -possibilities = player.ranking_algorithm.possible_results(player.rating, opponent.rating)
-            %td{ :style => 'text-align: center', :title => "#{number_to_human(possibilities[0][0])} / #{number_to_human(possibilities[0][1])}" }
+            %td.score{:title => "#{number_to_human(possibilities[0][0])} / #{number_to_human(possibilities[0][1])}" }
               %strong
                 = number_to_human(possibilities[0][0], :precision => 0)

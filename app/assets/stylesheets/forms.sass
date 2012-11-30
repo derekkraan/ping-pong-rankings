@@ -1,0 +1,63 @@
+@import 'bourbon'
+@import 'neat'
+@import 'mixin'
+
+.default-form
+
+  .input
+    overflow: hidden
+    width: 100%
+    margin-bottom: 12px
+
+    label
+      float: left
+      width: 140px
+      padding-top: 3px
+
+    .string
+      float: left
+      width: 200px
+      padding: 5px 3px
+      margin: 0
+      border: 1px solid #CDCDCD
+      font-size: 1em
+
+      &:focus
+        border-color: #4AA9DD
+        outline: transparent
+
+      &.icon
+        width: 175px
+
+    span.icon
+      float: left
+      width: 25px
+      padding: 3px 0 0
+      font-size: 1em
+      +linear-gradient(#FFF, #EFEFEF)
+      border: 1px solid #CDCDCD
+      border-right: 0
+      color: #888
+      text-align: center
+
+  .buttons
+    .btn
+      padding: 7px 10px
+      background: #0082C9
+      +border-radius(4px)
+      border: none
+      color: #FFF
+      font-size: 0.9em
+      cursor: pointer
+
+      &.disabled
+        background: #888
+        color: #CCC
+        cursor: default
+
+    a.btn
+      display: block
+
+      &:hover
+        background: #006EA9
+
