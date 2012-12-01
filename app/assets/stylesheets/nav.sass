@@ -18,15 +18,16 @@
     font-weight: normal
     +span-columns(4)
 
-  .nav
+  .nav-container
     +span-columns(5)
     +shift(3)
-    float: right
-    overflow: hidden
     +tablet
       +shift(0)
       float: none
       width: 100%
+    .nav
+      float: right
+      overflow: hidden
 
     li 
       float: left

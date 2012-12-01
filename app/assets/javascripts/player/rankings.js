@@ -16,14 +16,18 @@ PingPong.initRankings = function() {
     // Navigation
     $('.nav a').click(function(e) {
         e.preventDefault();
-        if($(this).attr('data-content') != 'new-game'){
+        var elmParent = $(this).parent();
+        if(elmParent.hasClass('nav-item')){
             $('.nav a').removeClass('active');
             $(this).addClass('active');
             $('.nav-view').addClass('hide');
             $('#'+$(this).attr('data-content')).removeClass('hide');
-        } else {
+        } if(elmParent.attr('id') == 'nav-newgame'){
             showNewGame()
+        } else if(elmParent.attr('id') == 'nav-fullscreen'){
+            switchFullscreen()
         }
+
     });
 
     // Keypress 'N' for new game
@@ -61,5 +65,10 @@ PingPong.initRankings = function() {
                 elm.addClass('hide');
             });
         }
+    }
+    // Switch full screen
+    function switchFullscreen(){
+        var elm = $('.container');
+        elm.toggleClass('fullscreen');
     }
 };
