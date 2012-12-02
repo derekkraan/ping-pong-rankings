@@ -9,7 +9,7 @@
       = results_badge(team)
       .meta-info
         /%span.score-gained +32
-        %span.score= team.players.first.rating if team.players.count == 1
+        %span.score= team.players.first.rating if team.players.length == 1
     .scoreboard
       .score.score-left= game.teams[0].score
       .score.score-right= game.teams[1].score
@@ -20,4 +20,4 @@
       %span.player= team.players[1].name if team.players[1]
       .meta-info
         /%span.score-gained +32
-        %span.score= team.players.first.rating if team.players.count == 1
+        %span.score= team.players.first.rating if team.players.length == 1

@@ -43,10 +43,10 @@ class Player < ActiveRecord::Base
     read_attribute(:rating) || ranking_algorithm::DEFAULT_PLAYER_RATING
   end
 
-  def rating_histories
+  def initial_history
     initial = RatingHistory.new
     initial.player = self
     initial.rating = ranking_algorithm::DEFAULT_PLAYER_RATING
-    [initial] + super.chronological_order
+    initial
   end
 end

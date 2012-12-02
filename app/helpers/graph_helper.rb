@@ -7,8 +7,9 @@ module GraphHelper
     dates = []
 
     [*players].each do |player|
-      dates.push player.games.order('created_at asc').map(&:created_at).map(&:to_date)
-      y_values.push player.rating_histories.map(&:rating)
+      histories = (options.fetch(:group_by_dates, false) ? player.rating_histories.last_per_day.within_last_month.chronological_order : player.rating_histories.within_last_month.chronological_order)
+      dates.push    histories.map(&:game).map(&:created_at).map(&:to_date)
+      y_values.push [player.initial_history.rating] + histories.map(&:rating)
 
       if options.fetch :group_by_dates, false
         labels = [player.name] * y_values.last.count
@@ -28,32 +29,7 @@ module GraphHelper
     end
 
     if options.fetch :group_by_dates, false
-      _y_values = []
-      _display_labels = []
-      _dates = dates.reduce{ |a,b| a + b }.uniq.sort
-      (0...y_values.count).each do |i|
-        _y_values[i] ||= [*y_values[i][0]] * _dates.count
-        _display_labels[i] = [*display_labels[i][0]] * _dates.count
-
-        _dates.each_with_index do |date,j|
-          if dates[i].include? date
-            k = dates[i].index date
-            # k is the first index where dates[i][k] == date. We want the last, hence this while loop.
-            while dates[i][k] == dates[i][k+1]
-              k += 1
-            end
-            # It's k + 1 because y_values has one extra value at the beginning, the default rating for the ratings scheme.
-            _y_values[i][j] = y_values[i][k+1]
-          else
-            _y_values[i][j] = _y_values[i][j-1]
-          end
-        end
-      end
-
-      y_values = _y_values
-      display_labels = _display_labels
-
-      x_labels = dates = _dates
+      x_labels = dates
 
       options = {
         dot_radius: 4,

@@ -1,4 +1,4 @@
-- players = Player.order('rating desc, name asc')
+- players = Player.order('rating desc, name asc').select { |player| should_show? player }
 // Rankings
 #rankings.content.nav-view
   // Ranking tabs

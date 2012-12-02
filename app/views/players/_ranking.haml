@@ -13,7 +13,6 @@
 
   - ranker = create_ranker
   - players.each do |player|
-    - if should_show?(player)
-      - rank = ranker.call(player.rating)
-      .rank{:class => "rank-#{rank}", 'data-rank' => rank}
-        = render player
+    - rank = ranker.call(player.rating)
+    .rank{:class => "rank-#{rank}", 'data-rank' => rank}
+      = render player

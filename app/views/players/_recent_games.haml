@@ -1,4 +1,4 @@
-- games = Game.newest_first.limit(15)
+- games = Game.newest_first.limit(15).includes(teams: [:players])
 - cache games do
   .last-game= render(games.shift)
   .game-list= render(games)
