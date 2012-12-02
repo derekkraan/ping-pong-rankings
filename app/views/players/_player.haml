@@ -1,6 +1,6 @@
 - cache player do
   .player
-    %span.img{:style => 'background-image:url(https://twimg0-a.akamaihd.net/profile_images/717463702/588967521_5__2Nb_bigger.jpeg)'}
+    %span.img{ :style => "background-image:url(#{player.profile_image_url(:bigger => true)})" }
     = link_to player.name, player, {:title => player.name}
   .history.spark_line
     %span.spark_line{ :id => "rating_spark_#{player.id}", :style => "width: #{[100,10 * player.games.count].min}%" }
