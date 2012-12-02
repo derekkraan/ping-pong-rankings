@@ -65,7 +65,6 @@
         $('#team' + teamId + '_player2_id').val(elm.slice(1).attr('data-player-id'))
     })
   }
-  
 
   // Select players
   $('.player-list .player').click(function(e){
@@ -74,16 +73,6 @@
         playerId = elm.attr('data-player-id'),
         teamId = elm.parents('ul').attr('data-team')
         teamContainer = 'team-' + teamId
-        playerPosition = 1
-
-    // Set player position
-    if($('#'+ teamContainer + ' li').length >= 1 && $('#'+ teamContainer + ' .player:first').attr('data-position') == 1){
-      playerPosition = 2
-    } else {
-      playerPosition = 1
-    }
-
-    $('select #team' + teamId + '_player' + playerPosition + '_id').val(playerId)
 
     // Change last player
     if($('#'+ teamContainer + ' li').length == 2){
@@ -100,20 +89,18 @@
     refresh_players()
 
     // Event for removing selected player
-    $('.selected-players .player').on('click', function(e){
+    $('.selected-players .player').click(function(e){
       e.preventDefault();
       big_elm = $(this)
-      teamId = big_elm.closest('.team').attr('data-team')
       playerId = big_elm.attr('data-player-id')
       big_elm.parent().remove()
       $('.player-list [data-player-id="' + playerId + '"]').css('visibility', 'visible')
-      $('select #team' + teamId + '_player' + playerPosition + '_id').val(playerId)
       refresh_players()
     })
   })
 
   // Set Default Score
-  $('.default-score a').bind('click', function(e){
+  $('.default-score a').click(function(e){
     e.preventDefault();
     $(this).closest('.team').find('input').val($(this).text())
   })
@@ -145,7 +132,7 @@
       $(this).addClass('disabled');
     }
     // Set Default Score
-    $('.default-score a').bind('click', function(e){
+    $('.default-score a').click(function(e){
       e.preventDefault();
       $(this).closest('.team').find('input').val($(this).text())
     })
