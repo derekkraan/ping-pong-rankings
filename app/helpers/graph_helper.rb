@@ -14,7 +14,7 @@ module GraphHelper
       if options.fetch :group_by_dates, false
         labels = [player.name] * y_values.last.count
       else
-        labels = player.games.order('created_at asc').each_with_index.map do |g,i|
+        labels = player.games.within_last_month.chronological_order.each_with_index.map do |g,i|
           team = g.teams.find{ |t| t.players.include? player }
           other_team = g.teams.find{ |t| !t.players.include? player }
           rating_difference = y_values.last[i] - y_values.last[i-1]

@@ -32,6 +32,14 @@ class Game < ActiveRecord::Base
     true
   end
 
+  def self.within_last_month
+    where(arel_table[:created_at].gt 30.days.ago)
+  end
+
+  def self.chronological_order
+    order('created_at ASC')
+  end
+
   def self.newest_first
     order('created_at DESC')
   end
