@@ -5,19 +5,15 @@
     - [player.name, player.id]
 
   .overlay
-    %ul.player-list
-      - Player.new do |player|
-        - Player.order('name ASC').map do |player|
-          %li
-            %a.player{:href => '#', :data => {'player-id' => player.id, :team => '1'} }
-              %span.img{:style => 'background-image:url(https://twimg0-a.akamaihd.net/profile_images/717463702/588967521_5__2Nb_bigger.jpeg)'}
-              %span= player.name
+    %ul.player-list{ :data => { 'team' => 1 } }
+      - Player.order('name ASC').each do |player|
+        %li= render player
 
     .selected
-      #team-1.team
+      #team-1.team{ :data => { 'team-id' => 1 } }
         %h2 Team 1
         %ul.selected-players
-      #team-2.team
+      #team-2.team{ :data => { 'team-id' => 2 } }
         %h2 Team 2
         %ul.selected-players
 
@@ -39,14 +35,9 @@
         %input.btn.add-game{:type => 'submit', :value => '+ Add game'}
         %input.btn{:type => 'submit', :value => 'Submit score(s)'}
 
-    %ul.player-list
-      - Player.new do |player|
-        - Player.order('name ASC').map do |player|
-          %li
-            %a.player{:href => '#', :data => {'player-id' => player.id, :team => '2'} }
-              %span.img{:style => 'background-image:url(https://twimg0-a.akamaihd.net/profile_images/717463702/588967521_5__2Nb_bigger.jpeg)'}
-              %span= player.name
-
+    %ul.player-list{ :data => { 'team' => 2 } }
+      - Player.order('name ASC').each do |player|
+        %li= render player
 
   .hide
     - (1..2).each do |i|
@@ -54,46 +45,36 @@
         = fields_for "team#{i}_player#{j}", Player.new do |player|
           = select "team#{i}_player#{j}", 'id', player_options, {}, :tabindex => (i-1)*2+(j)
 
-/  - num_games = @game.new_record? ? 7 : 1
-/  - (1..num_games).each do |i|
-/    %div{ :class => (i > 1 ? 'hide' : '') << ' games_input', :id => "game_#{i}" }
-/      .row
-/        - (1..2).each do |j|
-/          .span4
-/            .row
-/              .span4.input-append
-/                = fields_for "game#{i}" do |game|
-/                  = game.fields_for "team#{j}" do |team|
-/                    = team.text_field :score, :class => 'span1', :placeholder => 'Score', :tabindex => 5
-/                    %button.btn{ :type => 'button', :id => "score_#{i}_#{j}_11" } 11
-/                    %button.btn{ :type => 'button', :id => "score_#{i}_#{j}_21" } 21
-/                    - score_button_script "score_#{i}_#{j}_11", "game#{i}_team#{j}_score", 11
-/                    - score_button_script "score_#{i}_#{j}_21", "game#{i}_team#{j}_score", 21
-/          - if i == 1 && j == 2 && @game.new_record?
-/            .span2
-/              %button.btn{ :type => 'button', :id => 'more_games' }
-/                %i.icon-plus
-/                - buffer_script "$('#more_games').click(function(e) { e.preventDefault(); $('.hide.games_input').first().removeClass('hide')})"
-/              %button.btn{ :type => 'button', :id => 'fewer_games' }
-/                %i.icon-minus
-/                - buffer_script "$('#fewer_games').click(function(e) { e.preventDefault(); if($('.games_input:not(.hide)').length > 1) $('.games_input:not(.hide)').last().addClass('hide').find('input').val(null)})"
-
-/  .row
-/    .span4.offset4
-/      = games.submit :class => 'btn btn-primary'
-/      - buffer_script "$('#new_game').submit(function(e) {$('#new_game').find('.btn-primary').addClass('disabled').attr('disabled', true)});"
-
 :javascript
+  // Get rid of these pesky sparklines (cluttering up my JS console)
+  $('.player-list .spark_line').remove()
+
+  // Function to keep players select boxes in sync with the selected players.
+  function refresh_players() {
+    $.each(['#team1_player1_id', '#team1_player2_id', '#team2_player1_id', '#team2_player2_id'], function(e) {
+      $(e).val(null)
+    })
+    var teams = new Array()
+    teams[1] = '#team-1 .selected-players .player'
+    teams[2] = '#team-2 .selected-players .player'
+    $.each(teams, function(teamId,e){
+      elm = $(e)
+      if (elm.slice(0))
+        $('#team' + teamId + '_player1_id').val(elm.slice(0).attr('data-player-id'))
+      if (elm.slice(1))
+        $('#team' + teamId + '_player2_id').val(elm.slice(1).attr('data-player-id'))
+    })
+  }
+  
+
   // Select players
-  $('.player-list a').click(function(e){
+  $('.player-list .player').click(function(e){
     e.preventDefault();
     var elm = $(this),
         playerId = elm.attr('data-player-id'),
-        playerName = elm.text(),
-        teamId = elm.attr('data-team'),
+        teamId = elm.parents('ul').attr('data-team')
         teamContainer = 'team-' + teamId
-        playerPosition = 1,
-        data = '';
+        playerPosition = 1
 
     // Set player position
     if($('#'+ teamContainer + ' li').length >= 1 && $('#'+ teamContainer + ' .player:first').attr('data-position') == 1){
@@ -102,37 +83,35 @@
       playerPosition = 1
     }
 
+    $('select #team' + teamId + '_player' + playerPosition + '_id').val(playerId)
+
     // Change last player
     if($('#'+ teamContainer + ' li').length == 2){
-      $('#'+ teamContainer + ' li:eq(1)').remove()
+      $('#'+ teamContainer + ' li:eq(1) .player').click()
     }
 
-    // Set hidden value
-    $('#team' + teamId + '_player' + playerPosition + '_id option').filter(function() {
-        return $(this).attr('value') == playerId; 
-    }).prop('selected', true);
-
     // Set Selected player
-    data = '<li>'
-     + '<a href="#" class="player" data-position="' + playerPosition + '">'
-        + '<span class="img" style="background-image:url(https://twimg0-a.akamaihd.net/profile_images/717463702/588967521_5__2Nb_bigger.jpeg)"></span>'
-        + '<span>' + playerName + '</span>'
-     + '</a>'
-     + '</li>';
+    $('#' + teamContainer).find('.selected-players').append(elm.parent().clone())
 
-    $('#' + teamContainer).find('.selected-players').append(data)
+    // Hide the selected player (but don't take him out of the flow)
+    $('.player-list [data-player-id="' + playerId + '"]').css('visibility', 'hidden')
 
-    // Console
-    console.log($('#' + teamContainer + ' li').length)
+    // Refresh the select boxes
+    refresh_players()
 
-    // Remove selected player
+    // Event for removing selected player
     $('.selected-players .player').on('click', function(e){
       e.preventDefault();
-      $(this).parent('li').remove();
-      $('#team' + teamId + '_player' + $(this).attr('data-position') + '_id option:selected').removeAttr('selected');
+      big_elm = $(this)
+      teamId = big_elm.closest('.team').attr('data-team')
+      playerId = big_elm.attr('data-player-id')
+      big_elm.parent().remove()
+      $('.player-list [data-player-id="' + playerId + '"]').css('visibility', 'visible')
+      $('select #team' + teamId + '_player' + playerPosition + '_id').val(playerId)
+      refresh_players()
     })
   })
-  
+
   // Set Default Score
   $('.default-score a').bind('click', function(e){
     e.preventDefault();

@@ -1,5 +1,5 @@
 - cache player do
-  .player
+  .player{ :data => { 'player-id' => player.id } }
     %span.img{ :style => "background-image:url(#{player.profile_image_url(:bigger => true)})" }
     = link_to player.name, player, {:title => player.name}
   .history.spark_line

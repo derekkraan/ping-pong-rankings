@@ -51,7 +51,7 @@ class Player < ActiveRecord::Base
     size = options.fetch(:bigger, false) ? '_bigger' : '_normal'
     if twitter.present?
       begin
-        Twitter.user(twitter).profile_image_url.gsub('_normal', size)
+        @profile_img_url ||= Twitter.user(twitter).profile_image_url.gsub('_normal', size)
       rescue
         logger.debug "Twitter avatar fetch failed for User id: #{id}"
         default_profile_image_url

@@ -30,17 +30,21 @@
       font-size: 0.8em
       text-decoration: none
       display: block
+      cursor: pointer
 
-      span
+      a, span
         padding: 5px 10px 0 10px
         +text-overflow
         display: block
+        color: white
+        text-decoration: none
       
       .img
         float: left
         width: 32px
         height: 32px
         background: no-repeat center transparent
+        background-size: 30px
         border: 2px solid #FFF
         +border-radius(50%)
         +box-shadow(0 0 2px 1px rgba(0, 0, 0, 0.1))
@@ -54,6 +58,11 @@
       .team
         +span-columns(6)
         +nth-omega(2n)
+      .spark_line,
+      .games-played,
+      .score,
+      .streak
+        display: none
 
     // Player list
     .player-list
@@ -72,6 +81,9 @@
     .selected
       .selected-players
         height: 240px
+        .player
+          .img
+            background-size: 73px
 
       li
         +fill-parent
