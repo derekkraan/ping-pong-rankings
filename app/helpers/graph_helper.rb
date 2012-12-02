@@ -108,8 +108,10 @@ module GraphHelper
       );
     )
 
-    content_tag :script do
-      "$(document).ready(function(){#{script}});".html_safe
+    if y_values.first.present?
+      content_tag :script do
+        "$(document).ready(function(){#{script}});".html_safe
+      end
     end
   end
 
