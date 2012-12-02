@@ -32,6 +32,10 @@ class Game < ActiveRecord::Base
     true
   end
 
+  def self.newest_first
+    order('created_at DESC')
+  end
+
   def winning_team
     teams.where(winners: true).first
   end

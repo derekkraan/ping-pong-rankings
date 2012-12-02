@@ -1,3 +1,4 @@
-- cache ['rating history chart', Game.maximum(:updated_at), Game.count, Game.last] do
+- cache ['rating history chart', Game.scoped] do
   #rating_history_chart.span11{ :style => 'height: 600px;' }
-  = line_graph 'rating_history_chart', players, { focus_radius: 10, group_by_dates: true }
+    - if players.present? && Game.count > 0
+      = line_graph 'rating_history_chart', players, { focus_radius: 10, group_by_dates: true }

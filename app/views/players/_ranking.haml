@@ -1,4 +1,4 @@
-- cache ['ranking table', Game.maximum(:updated_at), Game.count, Game.last] do
+- cache ['ranking table', players] do
   .header
     .player
       %span Player
@@ -11,54 +11,9 @@
     .streak
       %span Streak
 
-  - last_rating = false
-  - rank = 1
+  - ranker = create_ranker
   - players.each do |player|
-    - if player.games.count > 0
+    - if should_show?(player)
+      - rank = ranker.call(player.rating)
       .rank{:class => "rank-#{rank}", 'data-rank' => rank}
-        .player
-          %span.img{:style => 'background-image:url(https://twimg0-a.akamaihd.net/profile_images/717463702/588967521_5__2Nb_bigger.jpeg)'}
-          = link_to player.name, player, {:title => player.name}
-        .history.spark_line
-          %span.spark_line{ :id => "rating_spark_#{player.id}" }
-          = spark_line "rating_spark_#{player.id}", player.rating_histories.map(&:rating)
-        .games-played
-          %span= player.games.count
-        .score
-          %span= player.rating
-        .streak.winning
-          %span= player.streak
-
-        - rank += 1 if player.rating != last_rating
-        - last_rating = player.rating
-
-
-  / %table.table
-  /   %thead
-  /     %tr
-  /       %th #
-  /       %th Name
-  /       %th
-  /       %th GP
-  /       %th Rating
-  /       %th Streak
-  /   %tbody
-  /     - last_rating = false
-  /     - rank = 1
-  /     - players.each do |player|
-  /       - if player.games.count > 0
-  /         %tr
-  /           %td
-  /             = rank if player.rating != last_rating
-  /           %td
-  /             = link_to player.name, player
-  /             = streak_label player.streak
-  /           %td.spark_line
-  /             %span.spark_line{ :id => "rating_spark_#{player.id}", :style => "width: #{[100,10 * player.games.count].min}px;" }
-  /             = spark_line "rating_spark_#{player.id}", player.rating_histories.map(&:rating)
-  /           %td= player.games.count
-  /           %td= player.rating
-  /           %td= player.streak
-
-  /           - rank += 1 if player.rating != last_rating
-  /           - last_rating = player.rating
+        = render player

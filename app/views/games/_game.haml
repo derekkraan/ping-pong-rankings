@@ -1,0 +1,23 @@
+- cache game do
+  .panda-game-wrapper{ :class => ('flipped' if game.teams[1].winners) }
+  .game-result{ :class => game.created_at > 5.minutes.ago ? 'success' : '' }
+    - teams = game.teams
+    .team.team-left
+      - team = game.teams[0]
+      %span.player= team.players[0].name
+      %span.player= team.players[1].name if team.players[1]
+      = results_badge(team)
+      .meta-info
+        /%span.score-gained +32
+        %span.score= team.players.first.rating if team.players.count == 1
+    .scoreboard
+      .score.score-left= game.teams[0].score
+      .score.score-right= game.teams[1].score
+    .team.team-right
+      - team = game.teams[1]
+      = results_badge(team)
+      %span.player= team.players[0].name
+      %span.player= team.players[1].name if team.players[1]
+      .meta-info
+        /%span.score-gained +32
+        %span.score= team.players.first.rating if team.players.count == 1
