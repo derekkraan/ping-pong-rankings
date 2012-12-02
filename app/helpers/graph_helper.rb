@@ -100,7 +100,13 @@ module GraphHelper
       max: RatingHistory.maximum(:rating),
     }
     content_tag :script do
-      "$(document).ready(function(){new Ico.SparkLine(#{element_id.to_json}, #{y_values.to_json}, #{options.to_json})})".html_safe
+      %Q(
+        $(document).ready(function(){
+          if ($("##{element_id}").is(':visible')) {
+            new Ico.SparkLine(#{element_id.to_json}, #{y_values.to_json}, #{options.to_json})
+          }
+        })
+      ).html_safe
     end
   end
 end
