@@ -43,13 +43,6 @@ class Player < ActiveRecord::Base
     read_attribute(:rating) || ranking_algorithm::DEFAULT_PLAYER_RATING
   end
 
-  def initial_history
-    initial = RatingHistory.new
-    initial.player = self
-    initial.rating = ranking_algorithm::DEFAULT_PLAYER_RATING
-    initial
-  end
-
   def default_profile_image_url
     'http://a0.twimg.com/sticky/default_profile_images/default_profile_6_normal.png'
   end

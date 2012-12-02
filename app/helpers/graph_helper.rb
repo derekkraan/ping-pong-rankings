@@ -9,7 +9,7 @@ module GraphHelper
     [*players].each do |player|
       histories = (options.fetch(:group_by_dates, false) ? player.rating_histories.last_per_day.within_last_month.chronological_order : player.rating_histories.within_last_month.chronological_order)
       dates.push    histories.map(&:game).map(&:created_at).map(&:to_date)
-      y_values.push [player.initial_history.rating] + histories.map(&:rating)
+      y_values.push histories.map(&:rating)
 
       if options.fetch :group_by_dates, false
         labels = [player.name] * y_values.last.count
