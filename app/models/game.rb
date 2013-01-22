@@ -10,11 +10,11 @@ class Game < ActiveRecord::Base
   def valid?(context=nil)
     # Need to have at least two players
     logger.debug 'Need to have at least two players'
-    return false unless teams.all?{ |team| players.present? }
+    return false unless teams.all?{ |team| team.players.present? }
 
     # Need to have a score for each team
     logger.debug 'Need to have a score for each team'
-    return false unless teams.all{ |team| score.present? }
+    return false unless teams.all{ |team| team.score.present? }
 
     # Not the same score for both players
     return false if teams.first.score == teams.second.score
