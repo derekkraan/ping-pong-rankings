@@ -27,7 +27,6 @@ PingPong.initRankings = function() {
         } else if(elmParent.attr('id') == 'nav-fullscreen'){
             switchFullscreen()
         }
-
     });
 
     // Keypress 'N' for new game

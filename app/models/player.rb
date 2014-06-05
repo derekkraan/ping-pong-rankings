@@ -47,6 +47,6 @@ class Player < ActiveRecord::Base
   end
 
   def profile_image_url(options={})
-    default_profile_image_url
+    google_image_url || default_profile_image_url
   end
 end

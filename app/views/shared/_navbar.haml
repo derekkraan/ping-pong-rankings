@@ -6,9 +6,9 @@
         - if current_player
           %li.nav-item#nav-rankings
             = link_to 'Rankings', player_ranking_path(current_player), { 'data-content' => 'rankings' }
-          %li.nav-item#nav-newgame
+          %li#nav-newgame
             = link_to 'Record Game', player_path(current_player), { 'data-content' => 'new-game' }
-          %li.nav-item#nav-fullscreen
+          %li#nav-fullscreen
             = link_to 'Fullscreen', '#'
           %li.nav-item#nav-logout
             = link_to 'Log out', sessions_path, method: :delete
