@@ -1,6 +1,5 @@
 - @game ||= Game.new
 = form_for @game, :html => {:class => 'default-form'} do |games|
-  = games.hidden_field :id
   - player_options = [['-', nil]] + Player.order('name ASC').map do |player|
     - [player.name, player.id]
 

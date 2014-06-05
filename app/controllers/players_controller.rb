@@ -13,7 +13,7 @@ class PlayersController < ApplicationController
 
   def update
     @player = Player.find(params[:id])
-    if @player.update_attributes(params[:player])
+    if @player.update_attributes(player_params)
       redirect_to @player
     else
       render 'save_fail'
@@ -21,7 +21,7 @@ class PlayersController < ApplicationController
   end
 
   def create
-    player = Player.new(params['player'])
+    player = Player.new(player_params)
     player.reset_rating
 
     if player.save
@@ -34,5 +34,14 @@ class PlayersController < ApplicationController
   def destroy
     Player.delete(params['id'])
     redirect_to new_player_path
+  end
+
+  def ranking
+  end
+
+  private
+
+  def player_params
+    params.require(:player).permit(:name, :rating)
   end
 end

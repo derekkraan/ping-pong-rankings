@@ -1,4 +1,3 @@
-- cache ['rating history chart', Game.scoped] do
-  #rating_history_chart.span11{ :style => 'height: 600px;' }
-    - if players.present? && Game.count > 0
-      = line_graph 'rating_history_chart', players, { focus_radius: 10, group_by_dates: true }
+#rating_history_chart.span11{ :style => 'height: 600px;' }
+  - if players.present? && Game.any?
+    = line_graph 'rating_history_chart', players, { focus_radius: 10, group_by_dates: true }

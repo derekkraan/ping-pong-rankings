@@ -15,9 +15,11 @@ class RatingHistory < ActiveRecord::Base
   end
 
   def self.last_per_day
-    sql = joins(:game).group('date(games.created_at)').select(arel_table[:id].maximum).to_sql
-    ids = ActiveRecord::Base.connection.execute("SELECT r.max_id FROM (#{sql}) AS r").map { |r| r.map &:second }.flatten
-    self.where(id: ids).chronological_order.joins(:game)
+    # sql = joins(:game).group('date(games.created_at)').select(arel_table[:id].maximum).to_sql
+    # ids = ActiveRecord::Base.connection.execute("SELECT r.max_id FROM (#{sql}) AS r").map { |r| r.map &:second }.flatten
+    # self.where(id: ids).chronological_order.joins(:game)
+    # TODO: fix query
+    self
   end
 
   def created_at
