@@ -1,14 +1,13 @@
 .navbar
   .container
-    %a.brand{:href => "/"} PingPongPanda
+    %a.brand{ href: "/" } PingPongPanda
     .nav-container
       %ul.nav
         %li#nav-rankings.nav-item
-          = link_to 'Ranking', '/ranking', {'data-content' => 'rankings'}
+          = link_to 'Ranking', player_path(current_player), { 'data-content' => 'rankings' }
         %li#nav-newgame
-          = link_to 'Enter Game', '/ranking', {'data-content' => 'new-game'}
-        //  = link_to 'Enter Game', new_game_path, {'data-content' => 'new-game'}
+          = link_to 'Enter Game', player_path(current_player), { 'data-content' => 'new-game' }
         %li#nav-newplayer.nav-item
-          = link_to 'Add Player', new_player_path, {'data-content' => 'new-player'}
+          = link_to 'Add Player', new_player_path, { 'data-content' => 'new-player' }
         %li#nav-fullscreen
           = link_to 'Fullscreen', '#'

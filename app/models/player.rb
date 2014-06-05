@@ -44,20 +44,10 @@ class Player < ActiveRecord::Base
   end
 
   def default_profile_image_url
-    'http://a0.twimg.com/sticky/default_profile_images/default_profile_6_normal.png'
+    nil
   end
 
   def profile_image_url(options={})
-    size = options.fetch(:bigger, false) ? '_bigger' : '_normal'
-    if twitter.present?
-      begin
-        @profile_img_url ||= Twitter.user(twitter).profile_image_url.gsub('_normal', size)
-      rescue
-        logger.debug "Twitter avatar fetch failed for User id: #{id}"
-        default_profile_image_url
-      end
-    else
-      default_profile_image_url
-    end
+    default_profile_image_url
   end
 end
