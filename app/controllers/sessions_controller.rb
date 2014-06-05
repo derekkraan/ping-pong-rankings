@@ -1,6 +1,7 @@
 class SessionsController < ApplicationController
   def create
     if player = Player.where(google_uid: auth_hash['info']['uid']).first
+      player.update_attributes(google_image_url: auth_hash['info']['image'])
       session[:player_id] = player.id
     else
       player = Player.create(
