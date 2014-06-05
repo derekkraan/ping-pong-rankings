@@ -6,7 +6,7 @@ Rankings::Application.routes.draw do
   resource :sessions
 
   resources :players do
-    get :ranking
+    get :ranking, on: :collection
   end
 
   resources :games do

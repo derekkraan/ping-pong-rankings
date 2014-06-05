@@ -3,10 +3,6 @@ class PlayersController < ApplicationController
     @player = Player.includes([:games, :teams, :rating_histories]).find(params[:id])
   end
 
-  def new
-    @player = Player.new
-  end
-
   def edit
     @player = Player.find(params[:id])
   end
@@ -15,17 +11,6 @@ class PlayersController < ApplicationController
     @player = Player.find(params[:id])
     if @player.update_attributes(player_params)
       redirect_to @player
-    else
-      render 'save_fail'
-    end
-  end
-
-  def create
-    player = Player.new(player_params)
-    player.reset_rating
-
-    if player.save
-      redirect_to new_player_path
     else
       render 'save_fail'
     end

@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   def index
-    redirect_to player_ranking_path(current_player.id) if current_player
+    redirect_to ranking_players_path
   end
 
   def current_player
