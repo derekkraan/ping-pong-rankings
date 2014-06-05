@@ -1,3 +1,7 @@
+//= depend_on_asset "first-place.png"
+//= depend_on_asset "second-place.png"
+//= depend_on_asset "third-place.png"
+
 @import 'bourbon'
 @import 'neat'
 @import 'mixin'
@@ -121,12 +125,12 @@
 
   .rank-1
     &:before
-      content: url(/assets/first-place.png)
+      content: url(<%= asset_path("first-place.png") %>)
 
   .rank-2
     &:before
-      content: url(/assets/second-place.png)
+      content: url(<%= asset_path("second-place.png") %>)
 
   .rank-3
     &:before
-      content: url(/assets/third-place.png)
+      content: url(<%= asset_path("third-place.png") %>)

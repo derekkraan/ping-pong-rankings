@@ -1,10 +1,12 @@
+//= depend_on_asset "bg-panda-game.png"
+
 @import 'bourbon'
 @import 'neat'
 @import 'mixin'
 
 
 .panda-game-wrapper
-  background: url(/assets/bg-panda-game.png) no-repeat center 0 transparent
+  background: url(<%= asset_path("bg-panda-game.png") %>) no-repeat center 0 transparent
   height: 140px
 
   &.flipped
