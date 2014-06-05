@@ -63,6 +63,4 @@ class GamesController < ApplicationController
     Game.recalculate_all
     redirect_to '/ranking'
   end
-
 end
-

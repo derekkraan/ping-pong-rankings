@@ -35,8 +35,4 @@ class PlayersController < ApplicationController
     Player.delete(params['id'])
     redirect_to new_player_path
   end
-
-  def rankings
-    render 'rankings'
-  end
 end

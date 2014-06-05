@@ -1,5 +1,4 @@
 module ScriptHelper
-
   def buffer_script(script)
     @script_buffer ||= []
     @script_buffer << script

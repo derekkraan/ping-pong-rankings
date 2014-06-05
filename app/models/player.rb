@@ -1,10 +1,11 @@
 class Player < ActiveRecord::Base
+  include LoadRankingAlgorithm
+
   attr_accessible :name, :rating, :twitter
+
   has_and_belongs_to_many :teams
   has_many :games, through: :teams
   has_many :rating_histories, dependent: :destroy
-
-  include LoadRankingAlgorithm
 
   before_create :validate_player
 

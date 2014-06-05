@@ -3,13 +3,11 @@ class RatingHistory < ActiveRecord::Base
   belongs_to :player
 
   def self.chronological_order
-    g = Game.arel_table
-    joins(:game).order(g[:created_at].asc)
+    joins(:game).order(Game.arel_table[:created_at].asc)
   end
 
   def self.newest_first
-    g = Game.arel_table
-    joins(:game).order(g[:created_at].desc)
+    joins(:game).order(Game.arel_table[:created_at].desc)
   end
 
   def self.within_last_month
