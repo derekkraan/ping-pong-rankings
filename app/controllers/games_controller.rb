@@ -30,7 +30,7 @@ class GamesController < ApplicationController
     end
 
     if results.all?
-      redirect_to player_ranking_path(current_player)
+      redirect_to ranking_players_path
     else
       render 'save_fail'
     end

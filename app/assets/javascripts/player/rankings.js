@@ -15,6 +15,10 @@ PingPong.initRankings = function() {
 
     // Navigation
     $('.nav a').click(function(e) {
+        if ($(this).parent().attr('id') == 'nav-login') {
+            return;
+        }
+
         e.preventDefault();
         var elmParent = $(this).parent();
         if(elmParent.hasClass('nav-item')){
