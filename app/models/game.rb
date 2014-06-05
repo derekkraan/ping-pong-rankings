@@ -1,13 +1,12 @@
 class Game < ActiveRecord::Base
+  include LoadRankingAlgorithm
+
   has_many :teams, dependent: :destroy
   has_many :players, through: :teams
   has_many :rating_histories, dependent: :destroy
   after_create :calculate_player_rankings
 
-  include LoadRankingAlgorithm
-  include Tweet
-
-  def valid?(context=nil)
+  def valid?(context = nil)
     # Need to have at least two players
     logger.debug 'Need to have at least two players'
     return false unless teams.all?{ |team| team.players.present? }
@@ -69,8 +68,8 @@ class Game < ActiveRecord::Base
   end
 
   def self.newer_than(time)
-    g = Game.arel_table
-    where(g[:created_at].gt(time))
+    game = Game.arel_table
+    where(game[:created_at].gt(time))
   end
 
   def calculate_player_rankings
@@ -97,9 +96,9 @@ class Game < ActiveRecord::Base
 
   def self.recalculate_all
     players = Player.all
-    players.each &:reset_rating
-    players.each &:save
+    players.each(&:reset_rating)
+    players.each(&:save)
 
-    self.order('created_at asc').each &:calculate_player_rankings
+    self.order('created_at asc').each(&:calculate_player_rankings)
   end
 end
