@@ -3,13 +3,15 @@
     %a.brand{ href: "/" } PingPongPanda
     .nav-container
       %ul.nav
-        - # TODO: remove placeholder
-        - current_player = Player.first
-        %li#nav-rankings.nav-item
-          = link_to 'Ranking', player_ranking_path(current_player), { 'data-content' => 'rankings' }
-        %li#nav-newgame
-          = link_to 'Enter Game', player_path(current_player), { 'data-content' => 'new-game' }
-        %li#nav-newplayer.nav-item
-          = link_to 'Add Player', new_player_path, { 'data-content' => 'new-player' }
-        %li#nav-fullscreen
-          = link_to 'Fullscreen', '#'
+        - if current_player
+          %li.nav-item#nav-rankings
+            = link_to 'Rankings', player_ranking_path(current_player), { 'data-content' => 'rankings' }
+          %li.nav-item#nav-newgame
+            = link_to 'Record Game', player_path(current_player), { 'data-content' => 'new-game' }
+          %li.nav-item#nav-fullscreen
+            = link_to 'Fullscreen', '#'
+          %li.nav-item#nav-logout
+            = link_to 'Log out', sessions_path, method: :delete
+        - else
+          %li.nav-item#nav-login
+            = link_to 'Authenticate with Google', '/auth/google_oauth2'

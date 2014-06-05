@@ -1,5 +1,9 @@
 Rankings::Application.routes.draw do
-  root to: 'home#index'
+  root :to => 'application#index'
+
+  get '/auth/google_oauth2/callback', to: 'sessions#create'
+
+  resource :sessions
 
   resources :players do
     get :ranking
