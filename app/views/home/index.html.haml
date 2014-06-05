@@ -1,2 +1,6 @@
-%h1 Home#index
-%p Find me in app/views/home/index.html.haml
+.hero-unit
+  %iframe{:height => 185, :width => 280, :frameborder => "0", :src => "http://www.youtube.com/embed/bqOZW6ckL0A", :class => "pull-right"}
+    %h1 PingPongGuru
+  %p Register an account for PingPongGuru and become the 'Guru'.
+  %p
+    = link_to 'Register for PingPongGuru', new_player_path(), :class => 'btn btn-large btn-primary'
