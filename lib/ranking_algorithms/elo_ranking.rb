@@ -3,7 +3,6 @@ class EloRanking
   DEFAULT_PLAYER_RATING = 1500
 
   def self.calculate(game)
-
     t1 = game.teams.first
     t2 = game.teams.second
 
@@ -25,7 +24,6 @@ class EloRanking
       player.rating = player.rating + self.rating_impact(player.rating, t2_expected, t2_result)
       player.save
     end
-
   end
 
   def self.expected_score(p1_rating, p2_rating)
@@ -51,5 +49,4 @@ class EloRanking
       [self.rating_impact(expectation[:rating], expectation[:expectation], 1), self.rating_impact(expectation[:rating], expectation[:expectation], 0)]
     end
   end
-  
 end

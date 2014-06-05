@@ -7,7 +7,8 @@ class SessionsController < ApplicationController
       player = Player.create(
         name:       auth_hash['info']['name'],
         google_uid: auth_hash['info']['uid'],
-        google_image_url: auth_hash['info']['image']
+        google_image_url: auth_hash['info']['image'],
+        rating: EloRanking::DEFAULT_PLAYER_RATING
       )
       session[:player_id] = player.id
     end
