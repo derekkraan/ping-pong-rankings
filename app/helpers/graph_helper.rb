@@ -102,7 +102,7 @@ module GraphHelper
     content_tag :script do
       %Q(
         $(document).ready(function(){
-          if ($("##{element_id}").is(':visible')) {
+          if ($("##{element_id}").is(':visible') && $("##{element_id}").children().length == 0) {
             new Ico.SparkLine(#{element_id.to_json}, #{y_values.to_json}, #{options.to_json})
           }
         })
