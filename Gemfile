@@ -46,7 +46,6 @@ gem 'neat'          # Neat - grid framework
 # Deploy with Capistrano
 # gem 'capistrano'
 
-# To use debugger
-# gem 'debugger'
+gem 'debugger'
 
 gem 'therubyracer', :require => 'v8'
