@@ -46,6 +46,8 @@ gem 'neat'          # Neat - grid framework
 # Deploy with Capistrano
 # gem 'capistrano'
 
-gem 'debugger'
+group :development do
+  gem 'debugger' if ENV['pingpongpanda_debugger']
+end
 
 gem 'therubyracer', :require => 'v8'
