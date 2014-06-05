@@ -44,7 +44,7 @@ class GamesController < ApplicationController
     @game = Game.find(params[:id])
     if @game.update_attributes(params[:game])
       Game.recalculate_all
-      redirect_to player_ranking_path(current_player)
+      redirect_to ranking_players_path
     else
       render 'save_fail'
     end
@@ -56,12 +56,12 @@ class GamesController < ApplicationController
       game.destroy()
       Game.recalculate_all
     end
-    redirect_to player_ranking_path(current_player)
+    redirect_to ranking_players_path
   end
 
   def recalculate
     Game.recalculate_all
-    redirect_to player_ranking_path(current_player)
+    redirect_to ranking_players_path
   end
 
   private

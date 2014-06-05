@@ -12,7 +12,7 @@ class SessionsController < ApplicationController
       )
       session[:player_id] = player.id
     end
-    redirect_to player_ranking_path(player)
+    redirect_to ranking_players_path
   end
 
   def destroy
