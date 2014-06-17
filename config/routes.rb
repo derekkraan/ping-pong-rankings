@@ -7,6 +7,8 @@ Rankings::Application.routes.draw do
 
   resources :players do
     get :ranking, on: :collection
+    get :point_potential, on: :collection
+    get :rating_history, on: :collection
   end
 
   resources :games do

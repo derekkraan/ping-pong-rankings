@@ -1,61 +1,21 @@
 - players = Player.order('rating desc, name asc').select { |player| should_show? player }
 // Rankings
 #rankings.content.nav-view
-  // Ranking tabs
-  %ul.tabs
-    %li#tab-ranking
-      = link_to '#ranking', {'data-content' => 'ranking-view'} do
-        Ranking List
-    %li#tab-possibility-matrix
-      = link_to '#possibility-matrix', {'data-content' => 'possibility-matrix'} do
-        Point Potentials
-    %li#tab-history-graph
-      = link_to '#history-graph', {'data-content' => 'history-graph'} do
-        Rating History Graph
+  = render 'shared/menu'
 
   // Ranking view
   #ranking-view.content.tab-view
     // Ranking list
     #ranking-list.content.medium
       %h1 Player Rankings
-      = render :partial => 'ranking', :locals => { :players => players }
+      = render 'ranking', players: players
 
     // Recent games
     #recent-games.content.medium
       = render 'recent_games'
 
-  // Matrix
-  #possibility-matrix.content.tab-view.hide
-    %h1 Point Potential Matrix
-    = render :partial => 'possibility_matrix', :locals => { :players => players }
-
-  // History
-  #history-graph.content.tab-view.hide
-    %h1 Rating History
-    = render :partial => 'rating_history', :locals => { :players => players }
-
 // New game
 #new-game.content.hide
   = render 'games/form'
 
-// New Player
-#new-player.content.nav-view.hide
-  %h1 Add Player
-  = render 'players/form'
-
--buffer_script "PingPong.initRankings();"
--buffer_script "$('#tab-ranking a').click();"
--buffer_script "$('#nav-rankings a').click();"
-
-:javascript
-   // Matrix hover
-  $("table.matrix").delegate('td','mouseover mouseleave', function(e) {
-      if (e.type == 'mouseover') {
-        $(this).parent().addClass("hover");
-        $("colgroup").eq($(this).index()).addClass("hover");
-      }
-      else {
-        $(this).parent().removeClass("hover");
-        $("colgroup").eq($(this).index()).removeClass("hover");
-      }
-  });
+- buffer_script "PingPong.initRankings();"

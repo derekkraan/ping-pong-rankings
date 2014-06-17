@@ -1,0 +1,12 @@
+- players = Player.order('rating desc, name asc').select { |player| should_show? player }
+.content.nav-view
+  = render 'shared/menu'
+
+  #history-graph.content.tab-view
+    %h1 Rating History
+    = render 'rating_history', players: players
+
+#new-game.content.hide
+  = render 'games/form'
+
+- buffer_script "PingPong.initRankings();"

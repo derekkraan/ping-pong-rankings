@@ -1,0 +1,12 @@
+- players = Player.order('rating desc, name asc').select { |player| should_show? player }
+.content.nav-view
+  = render 'shared/menu'
+
+  #possibility-matrix.content.tab-view
+    %h1 Point Potential Matrix
+    = render 'possibility_matrix', players: players
+
+#new-game.content.hide
+  = render 'games/form'
+
+- buffer_script "PingPong.initRankings();"

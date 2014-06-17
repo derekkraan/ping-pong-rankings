@@ -4,15 +4,6 @@ PingPong.initRankings = function() {
     all_content = '#ranking, #possibility-matrix, #history-graph, #player-edit, #recent-games, #new-game, #rankings, #new-player';
     all_nav = '#nav-rankings, #nav-newgame, #nav-newplayer';
 
-    // Tabs
-    $('.tabs a').click(function(e) {
-        e.preventDefault();
-        $('.tabs a').removeClass('active');
-        $(this).addClass('active');
-        $('.tab-view').addClass('hide');
-        $('#'+$(this).attr('data-content')).removeClass('hide');
-    });
-
     // Navigation
     $('.nav a').click(function(e) {
         if ($(this).parent().attr('id') == 'nav-login') {

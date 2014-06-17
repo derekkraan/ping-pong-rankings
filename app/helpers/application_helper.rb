@@ -14,4 +14,10 @@ module ApplicationHelper
       player.games.count < 30 && player.games.newest_first.first.created_at > 1.week.ago
     )
   end
+
+  def menu_tab(title, link)
+    css_class = current_page?(link) ? 'active' : nil
+
+    link_to title, link, class: css_class
+  end
 end
